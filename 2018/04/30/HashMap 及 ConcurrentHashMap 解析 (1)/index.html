@@ -79,13 +79,28 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程Java7 HashMap 简单地说，HashMap 里面是一个数组，然后数组每个元素是一个单向链表 capacity : 当前数组容量，始终保持 2^n，可以扩容，扩容后数组大小为当前的 2 倍 loadFactor : 负载因子，默认为 0.75 threshold : 扩容的阈值，等于 capa">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Liqingyu&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/04/30/HashMap 及 ConcurrentHashMap 解析 (1)/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
+<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程Java7 HashMap 简单地说，HashMap 里面是一个数组，然后数组每个元素是一个单向链表 capacity : 当前数组容量，始终保持 2^n，可以扩容，扩容后数组大小为当前的 2 倍 loadFactor : 负载因子，默认为 0.75 threshold : 扩容的阈值，等于 capa">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430165958827?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170116599?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170202593?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170249488?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170336485?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170421848?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170442697?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170505043?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170537169?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img-blog.csdn.net/20180430170607966?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-04-30T13:24:18.464Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Liqingyu&#39;s Blog">
+<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程Java7 HashMap 简单地说，HashMap 里面是一个数组，然后数组每个元素是一个单向链表 capacity : 当前数组容量，始终保持 2^n，可以扩容，扩容后数组大小为当前的 2 倍 loadFactor : 负载因子，默认为 0.75 threshold : 扩容的阈值，等于 capa">
+<meta name="twitter:image" content="http://img-blog.csdn.net/20180430165958827?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -115,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/30/HashMap 及 ConcurrentHashMap 解析 (1)/"/>
 
 
 
 
 
-  <title>Liqingyu's Blog</title>
+  <title> | Liqingyu's Blog</title>
   
 
 
@@ -140,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +228,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/30/HashMap 及 ConcurrentHashMap 解析 (1)/" itemprop="url">Untitled</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -298,9 +310,7 @@
       
 
       
-        
-          
-            <p><img src="//img-blog.csdn.net/20180430165958827?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+        <p><img src="//img-blog.csdn.net/20180430165958827?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
 <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
 <li>本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程<h2 id="Java7-HashMap"><a href="#Java7-HashMap" class="headerlink" title="Java7 HashMap"></a>Java7 HashMap</h2><img src="//img-blog.csdn.net/20180430170116599?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3Zlcm9uaXF1ZTUwMTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></li>
 <li>简单地说，HashMap 里面是一个数组，然后数组每个元素是一个单向链表</li>
@@ -397,8 +407,6 @@
 <li><a href="https://blog.csdn.net/fjse51/article/details/55260493" target="_blank" rel="noopener">https://blog.csdn.net/fjse51/article/details/55260493</a></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -415,12 +423,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -430,10 +438,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -441,6 +450,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -461,8 +474,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -504,6 +526,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java7-HashMap"><span class="nav-number">2.</span> <span class="nav-text">Java7 HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java7-ConcurrentHashMap"><span class="nav-number">3.</span> <span class="nav-text">Java7 ConcurrentHashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap-线程不安全的原因"><span class="nav-number">4.</span> <span class="nav-text">HashMap 线程不安全的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程-resize"><span class="nav-number">4.1.</span> <span class="nav-text">单线程 resize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程并发下的-resize"><span class="nav-number">4.2.</span> <span class="nav-text">多线程并发下的 resize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-fail"><span class="nav-number">4.3.</span> <span class="nav-text">Fast-fail</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#产生原因"><span class="nav-number">4.3.1.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程安全解决方案"><span class="nav-number">4.3.2.</span> <span class="nav-text">线程安全解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java8-HashMap"><span class="nav-number">5.</span> <span class="nav-text">Java8 HashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#put"><span class="nav-number">5.1.</span> <span class="nav-text">put</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组扩容"><span class="nav-number">5.2.</span> <span class="nav-text">数组扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-过程分析"><span class="nav-number">5.3.</span> <span class="nav-text">get 过程分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java8-ConcurrentHashMap"><span class="nav-number">6.</span> <span class="nav-text">Java8 ConcurrentHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">6.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#put-过程分析"><span class="nav-number">6.2.</span> <span class="nav-text">put 过程分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化数组-：initTable"><span class="nav-number">6.3.</span> <span class="nav-text">初始化数组 ：initTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链表转红黑树-：treeifyBin"><span class="nav-number">6.4.</span> <span class="nav-text">链表转红黑树 ：treeifyBin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩容：tryPresize"><span class="nav-number">6.5.</span> <span class="nav-text">扩容：tryPresize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据迁移：transfer"><span class="nav-number">6.6.</span> <span class="nav-text">数据迁移：transfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-过程分析-1"><span class="nav-number">6.7.</span> <span class="nav-text">get 过程分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -637,6 +675,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
