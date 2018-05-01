@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/3.jpg">
-<meta property="og:updated_time" content="2018-05-01T06:10:26.362Z">
+<meta property="og:updated_time" content="2018-05-01T06:13:36.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP 解析">
 <meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事务">
@@ -461,52 +461,21 @@
 <li>定义一个 <code>Performance</code> 接口和一个具体实现类 <code>Movie</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Performance &#123;</span><br><span class="line">	public void perform();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>//@Component(任选一个注解均可以实现)<br>@Service<br>public class Movie implements Performance {</p>
-<pre><code>@Override
-public void perform() {
-    System.out.println(&quot;The movie is performing&quot;);
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 现在我们希望电影开始和结束时有观众的动作，定义一个 `Audience` 类</span><br></pre></td></tr></table></figure></p>
-<p>@Aspect<br>public class Audience {</p>
-<pre><code>@Pointcut(&quot;execution(** concert.Performance.perform(..))&quot;)
-public void performance() {}
-
-@Around(&quot;performance()&quot;)
-public void watchPerformance(ProceedingJoinPoint jp) {
-    try {
-        System.out.println(&quot;Silencing cell phones&quot;);
-        System.out.println(&quot;Taking seats&quot;);
-        jp.proceed();
-        System.out.println(&quot;CLAP CLAP CLAP!!!&quot;);
-    } catch (Throwable e) {
-        System.out.println(&quot;Demanding a refund&quot;);
-    }
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 使用 JavaConfig 类来进行配置</span><br></pre></td></tr></table></figure></p>
-<p>@Configuration<br>@EnableAspectJAutoProxy<br>@ComponentScan(basePackages=”concert”) //(扫描 concert 包下的所有组件)<br>public class Config {</p>
-<pre><code>@Bean
-public Audience audience() {
-    return new Audience();
-}
-
-@Bean
-public Performance performance() {
-    return new Movie();
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 编写一个测试类来查看效果</span><br></pre></td></tr></table></figure></p>
-<p>@RunWith(SpringJUnit4ClassRunner.class)<br>@ContextConfiguration(classes=Config.class)<br>public class TestPerformance {</p>
-<pre><code>@Autowired
-private Audience audience;
-
-@Autowired
-private Performance performance;
-
-@Test
-public void testAudience() {
-    performance.perform();
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 测试结果如下</span><br></pre></td></tr></table></figure></p>
-<p>Silencing cell phones<br>Taking seats<br>The movie is performing<br>CLAP CLAP CLAP!!!<br><code>`</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//@Component(任选一个注解均可以实现)</span><br><span class="line">@Service</span><br><span class="line">public class Movie implements Performance &#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void perform() &#123;</span><br><span class="line">		System.out.println(&quot;The movie is performing&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>现在我们希望电影开始和结束时有观众的动作，定义一个 <code>Audience</code> 类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">public class Audience &#123;</span><br><span class="line"></span><br><span class="line">	@Pointcut(&quot;execution(** concert.Performance.perform(..))&quot;)</span><br><span class="line">	public void performance() &#123;&#125;</span><br><span class="line">	</span><br><span class="line">	@Around(&quot;performance()&quot;)</span><br><span class="line">	public void watchPerformance(ProceedingJoinPoint jp) &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			System.out.println(&quot;Silencing cell phones&quot;);</span><br><span class="line">			System.out.println(&quot;Taking seats&quot;);</span><br><span class="line">			jp.proceed();</span><br><span class="line">			System.out.println(&quot;CLAP CLAP CLAP!!!&quot;);</span><br><span class="line">		&#125; catch (Throwable e) &#123;</span><br><span class="line">			System.out.println(&quot;Demanding a refund&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 JavaConfig 类来进行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableAspectJAutoProxy</span><br><span class="line">@ComponentScan(basePackages=&quot;concert&quot;) //(扫描 concert 包下的所有组件)</span><br><span class="line">public class Config &#123;</span><br><span class="line"></span><br><span class="line">	@Bean</span><br><span class="line">	public Audience audience() &#123;</span><br><span class="line">		return new Audience();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Bean</span><br><span class="line">	public Performance performance() &#123;</span><br><span class="line">		return new Movie();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写一个测试类来查看效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(classes=Config.class)</span><br><span class="line">public class TestPerformance &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private Audience audience;</span><br><span class="line">	</span><br><span class="line">	@Autowired</span><br><span class="line">	private Performance performance;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	public void testAudience() &#123;</span><br><span class="line">		performance.perform();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Silencing cell phones</span><br><span class="line">Taking seats</span><br><span class="line">The movie is performing</span><br><span class="line">CLAP CLAP CLAP!!!</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <h3 id="CGLIB-动态代理"><a href="#CGLIB-动态代理" class="headerlink" title="CGLIB 动态代理"></a>CGLIB 动态代理</h3><ul>
 <li>若目标类没有实现相应的接口，则 Spring AOP 会使用 <code>CGLIB</code> 来动态代理目标类</li>
 <li>CGLIB 是一个代码生成的类库，可以在运行时动态的生成某个类的子类</li>
