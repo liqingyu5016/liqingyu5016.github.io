@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事务">
+<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵   问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring AOP 解析">
 <meta property="og:url" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
-<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事务">
+<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵   问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/3.jpg">
-<meta property="og:updated_time" content="2018-05-01T06:13:36.132Z">
+<meta property="og:updated_time" content="2018-05-01T06:49:37.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP 解析">
-<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事务">
+<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵   问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事">
 <meta name="twitter:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/1.jpg">
 
 
@@ -360,6 +360,7 @@
         <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
 <li>本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
 </ul>
+
 <h2 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h2><ul>
 <li>做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块<img src="/2018/05/01/Spring-AOP-解析/1.jpg"></li>
 <li>分解之后发现有些功能是通用的，如<blockquote>
@@ -429,6 +430,51 @@
 <li>使用注解创建切面，<code>@Aspect</code></li>
 <li>使用 JavaConfig 类创建切面</li>
 <li>使用 XML 配置文件</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h2 id="Spring-AOP-术语"><a href="#Spring-AOP-术语" class="headerlink" title="Spring AOP 术语"></a>Spring AOP 术语</h2><p>###横切关注点</p>
+<ul>
+<li>分布在整个应用多处的功能，如日志、安全、事务等</li>
+<li>可以被模块化为特殊的类，这些类被称为<code>切面</code>（aspect）<h3 id="通知（Advice）"><a href="#通知（Advice）" class="headerlink" title="通知（Advice）"></a>通知（Advice）</h3></li>
+<li>切面的工作称为通知</li>
+<li>通知定义了切面是<code>什么</code>以及<code>何时使用</code></li>
+<li>通知有 5 种类型：<blockquote>
+<ul>
+<li><code>前置通知</code> (Before)：在目标方法被调用之前调用通知功能</li>
+<li><code>后置通知</code> (After)：在目标方法完成之后调用通知， 此时不会关心方法的输出是什么</li>
+<li><code>返回通知</code> (After-returning)：在目标方法成功执行之后调用通知</li>
+<li><code>异常通知</code> (After-throwing)：在目标方法抛出异常后调用通知</li>
+<li><code>环绕通知</code> (Around)：通知包裹了被通知的方法， 在被通知的方法调用之前和调用之后执行自定义的行为</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h3 id="连接点（Join-Point）"><a href="#连接点（Join-Point）" class="headerlink" title="连接点（Join Point）"></a>连接点（Join Point）</h3><ul>
+<li>在应用执行过程种能够插入切面的一个点</li>
+<li>切面代码可以利用这些点插入到应用的正常流程之中，并添加新的行为</li>
+</ul>
+<h3 id="切点（Pointcut）"><a href="#切点（Pointcut）" class="headerlink" title="切点（Pointcut）"></a>切点（Pointcut）</h3><ul>
+<li>一个切面并不需要通知应用的所有连接点</li>
+<li>切点有助于缩小切面所通知的连接点的范围</li>
+<li>如果说通知定义了切面是<code>什么</code>及<code>何时</code>的话，那么切点就定义了<code>何处</code></li>
+</ul>
+<p>###切面（Aspect）</p>
+<ul>
+<li>切面是通知和切点的结合，通知和切点共同定义了切面的全部内容——它是什么，在何时和何处完成其功能</li>
+</ul>
+<h3 id="引入（Introduction）"><a href="#引入（Introduction）" class="headerlink" title="引入（Introduction）"></a>引入（Introduction）</h3><ul>
+<li>引入允许我们向现有的类添加新方法或属性</li>
+</ul>
+<h3 id="织入（Weaving）"><a href="#织入（Weaving）" class="headerlink" title="织入（Weaving）"></a>织入（Weaving）</h3><ul>
+<li>织入是把切面应用到目标对象并创建新的代理对象的过程</li>
+<li>切面是在指定的连接点被织入到目标对象中</li>
+<li>在目标对象的声明周期里有多个点可以进行织入：<blockquote>
+<ul>
+<li>编译期：切面在目标类编译时被织入。这种方式需要特殊的编译器。AspectJ 的织入编译器就是以这种方式织入切面的</li>
+<li>类加载期：切面在目标类加载到JVM时被织入。这种方式需要特殊的类加载器（ClassLoader），它可以在目标类被引入应用之前增强该目标类的字节码。AspectJ5 的加载时织入（load-time weaving， LTW）就支持以这种方式织入切面</li>
+<li>运行期：切面在应用运行的某个时刻被织入。一般情况下，在织入切面时，AOP 容器会为目标对象动态地创建一个代理对象。Spring AOP 就是以这种方式织入切面的</li>
 </ul>
 </blockquote>
 </li>
@@ -658,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题来源"><span class="nav-number">2.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最简单的方法"><span class="nav-number">3.1.</span> <span class="nav-text">最简单的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式：模板方法"><span class="nav-number">3.2.</span> <span class="nav-text">设计模式：模板方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式：装饰者"><span class="nav-number">3.3.</span> <span class="nav-text">设计模式：装饰者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">4.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP-实现"><span class="nav-number">5.</span> <span class="nav-text">AOP 实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-实现机制"><span class="nav-number">6.</span> <span class="nav-text">Spring AOP 实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-动态代理"><span class="nav-number">6.1.</span> <span class="nav-text">JDK 动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体实现"><span class="nav-number">6.1.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGLIB-动态代理"><span class="nav-number">6.2.</span> <span class="nav-text">CGLIB 动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体实现-1"><span class="nav-number">6.2.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题来源"><span class="nav-number">2.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最简单的方法"><span class="nav-number">3.1.</span> <span class="nav-text">最简单的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式：模板方法"><span class="nav-number">3.2.</span> <span class="nav-text">设计模式：模板方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式：装饰者"><span class="nav-number">3.3.</span> <span class="nav-text">设计模式：装饰者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">4.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP-实现"><span class="nav-number">5.</span> <span class="nav-text">AOP 实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-术语"><span class="nav-number">6.</span> <span class="nav-text">Spring AOP 术语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通知（Advice）"><span class="nav-number">6.1.</span> <span class="nav-text">通知（Advice）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接点（Join-Point）"><span class="nav-number">6.2.</span> <span class="nav-text">连接点（Join Point）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切点（Pointcut）"><span class="nav-number">6.3.</span> <span class="nav-text">切点（Pointcut）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入（Introduction）"><span class="nav-number">6.4.</span> <span class="nav-text">引入（Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#织入（Weaving）"><span class="nav-number">6.5.</span> <span class="nav-text">织入（Weaving）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-实现机制"><span class="nav-number">7.</span> <span class="nav-text">Spring AOP 实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-动态代理"><span class="nav-number">7.1.</span> <span class="nav-text">JDK 动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体实现"><span class="nav-number">7.1.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGLIB-动态代理"><span class="nav-number">7.2.</span> <span class="nav-text">CGLIB 动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体实现-1"><span class="nav-number">7.2.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
