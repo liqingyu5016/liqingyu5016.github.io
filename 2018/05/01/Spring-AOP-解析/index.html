@@ -89,7 +89,11 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/2.jpg">
-<meta property="og:updated_time" content="2018-05-01T03:48:18.771Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/6.jpg">
+<meta property="og:updated_time" content="2018-05-01T04:18:45.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP 解析">
 <meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程  Spring AOP 简述问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行时间 事务 ：方法开始之前要开始事务，">
@@ -370,23 +374,124 @@
 <li>等等。。。</li>
 </ul>
 </blockquote>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="最简单的方法"><a href="#最简单的方法" class="headerlink" title="最简单的方法"></a>最简单的方法</h4></li>
+</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="最简单的方法"><a href="#最简单的方法" class="headerlink" title="最简单的方法"></a>最简单的方法</h4><ul>
 <li>将通用模块的接口写好，在实现业务模块时调用相应的接口方法<img src="/2018/05/01/Spring-AOP-解析/2.jpg"></li>
 <li>存在的问题<blockquote>
 <ul>
 <li>日志、性能、事务相关的代码几乎将真正的业务代码给淹没</li>
-<li>所以希望有日志、性能等功能的类都要如此，重复代码很多</li>
-</ul>
-</blockquote>
-<h4 id="模板方法"><a href="#模板方法" class="headerlink" title="模板方法"></a>模板方法</h4></li>
-<li>在父类中将通用的非业务代码都写好，子类值关注业务逻辑</li>
-<li>存在的问题<blockquote>
-<ul>
-<li>日志、性能、事务相关的代码几乎将真正的业务代码给淹没</li>
-<li>所以希望有日志、性能等功能的类都要如此，重复代码很多</li>
+<li>所有希望有日志、性能等功能的类都要如此，重复代码很多</li>
 </ul>
 </blockquote>
 </li>
+</ul>
+<h4 id="设计模式：模板方法"><a href="#设计模式：模板方法" class="headerlink" title="设计模式：模板方法"></a>设计模式：模板方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public abstract class BaseCommand &#123;</span><br><span class="line">	public void execute() &#123;</span><br><span class="line">		Logger logger = Logger.getLog(...);</span><br><span class="line">		//记录日志</span><br><span class="line">		logger.debug(&quot;...&quot;);</span><br><span class="line">		//性能分析</span><br><span class="line">		PerformanceUtil.startTimer(...);</span><br><span class="line">		//权限检查</span><br><span class="line">		if (!user.hasPreviledge(...)) &#123;</span><br><span class="line">			//抛出异常</span><br><span class="line">		&#125;</span><br><span class="line">		//开始业务</span><br><span class="line">		beginTransaction();</span><br><span class="line">		//这是一个需要子类实现的抽象方法</span><br><span class="line">		doBusiness();</span><br><span class="line">		</span><br><span class="line">		commitTransaction();</span><br><span class="line">		</span><br><span class="line">		PerformanceUtil.endTimer();</span><br><span class="line">		logger.debug(&quot;...&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public abstract void doBusiness();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class PlaceOrderCommand extends BaseCommand &#123;</span><br><span class="line">	public void doBusiness() &#123;</span><br><span class="line">		//执行下订单操作</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class PaymentCommand extends BaseCommand &#123;</span><br><span class="line">	public void doBusiness() &#123;</span><br><span class="line">		//执行支付操作</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在父类中将通用的非业务代码都写好，子类只关注业务逻辑</li>
+<li>存在的问题<blockquote>
+<ul>
+<li>要执行哪些非功能代码，以什么顺序执行等等，子类只能无条件接受</li>
+<li>如果有个子类不需要事务，但其本身没有办法将事务代码去除</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="设计模式：装饰者"><a href="#设计模式：装饰者" class="headerlink" title="设计模式：装饰者"></a>设计模式：装饰者</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public interface Command &#123;</span><br><span class="line">	public void execute();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//一个用于记录日志的装饰器</span><br><span class="line">public class LoggerDecorator implements Command &#123;</span><br><span class="line">	Command cmd;</span><br><span class="line">	public LoggerDecorator(Command command) &#123;</span><br><span class="line">		this.cmd = command;</span><br><span class="line">	&#125;</span><br><span class="line">	public void execute() &#123;</span><br><span class="line">		Logger logger = Logger.getLog(...);</span><br><span class="line">		//记录日志</span><br><span class="line">		logger.debug(&quot;...&quot;);</span><br><span class="line">		this.cmd.execute();</span><br><span class="line">		logger.debug(&quot;...&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//一个用于性能统计的装饰器</span><br><span class="line">public class PerformanceDecorator implements Command &#123;</span><br><span class="line">	Command cmd;</span><br><span class="line">	public PerformanceDecorator(Command command) &#123;</span><br><span class="line">		this.cmd = command;</span><br><span class="line">	&#125;</span><br><span class="line">	public void execute() &#123;</span><br><span class="line">		PerformanceUtil.startTimer(...);</span><br><span class="line">		this.cmd.execute();</span><br><span class="line">		PerformanceUtil.endTimer(...);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;	</span><br><span class="line"></span><br><span class="line">class PlaceOrderCommand implements Command &#123;</span><br><span class="line">	public void execute() &#123;</span><br><span class="line">		//执行下订单操作</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class PaymentCommand implements Command &#123;</span><br><span class="line">	public void execute() &#123;</span><br><span class="line">		//执行支付操作</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>现在让 PlaceOrderCommand 能够打印日志、进行性能统计分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Command cmd = new LoggerDecorator(</span><br><span class="line">    new PerformanceDecorator(</span><br><span class="line">        new PlaceOrderCommand()));</span><br><span class="line">cmd.execute();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>让 PaymentCommand 只打印日志，装饰一次就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Command cmd = new LoggerDecorator(</span><br><span class="line">    new PaymentCommand());</span><br><span class="line">cmd.execute();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用任意数量装饰器，还可以以任意次序执行（严格意义上来说是不行的）</p>
+</li>
+<li>存在的问题：<blockquote>
+<ul>
+<li>一个处理日志、性能、业务的类为什么要实现业务接口（Command）</li>
+<li>如果别的业务模块，没有实现Command接口，但是也想利用日志/性能/事务等功能，该怎么办</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
+<li>Whereas DI helps you decouple application objects from each other, AOP helps you decouple cross-cutting concerns from the objects they affect<img src="/2018/05/01/Spring-AOP-解析/3.jpg">
+</li>
+</ul>
+<h3 id="AOP-Terminology"><a href="#AOP-Terminology" class="headerlink" title="AOP Terminology"></a>AOP Terminology</h3><h4 id="Advice"><a href="#Advice" class="headerlink" title="Advice"></a>Advice</h4><ul>
+<li>In AOP terms, the job of an aspect is called <em>advice</em></li>
+<li>Advice defines both the <em>what</em> and the <em>when</em> of an aspect</li>
+<li>Spring aspects can work with five kinds of advice :<blockquote>
+<ul>
+<li><code>Before</code> : The advice functionality takes place before the advised method is invoked</li>
+<li><code>After</code> : The advice functionality takes place after the advised method completed, regardless of the outcome</li>
+<li><code>After-returning</code> : The advice functionality takes place after the advised method successfully completes</li>
+<li><code>After-throwing</code> : The advice functionality takes place after the advised method throws an exception</li>
+<li><code>Around</code> : The advice wraps the advised method, providing some functionality before and after the advised method is invoked (most powerful)</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="Join-Points"><a href="#Join-Points" class="headerlink" title="Join Points"></a>Join Points</h4><ul>
+<li>A <em>join point</em> is a point in the execution of the application where an aspect can be plugged in</li>
+<li>The point could be a method being called, an exception being thrown, or even a field being modified</li>
+</ul>
+<h4 id="Pointcuts"><a href="#Pointcuts" class="headerlink" title="Pointcuts"></a>Pointcuts</h4><ul>
+<li>An aspect doesn’t necessarily advise all join points in an application</li>
+<li><em>Pointcuts</em> help narrow down the join points advised by an aspect</li>
+<li>If advice defines the <em>what</em> and <em>when</em> of aspects, then pointcuts define the <em>where</em></li>
+</ul>
+<h4 id="Aspects"><a href="#Aspects" class="headerlink" title="Aspects"></a>Aspects</h4><ul>
+<li>An <em>aspect</em> is the merger of advice and pointcuts</li>
+</ul>
+<h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><img src="/2018/05/01/Spring-AOP-解析/4.jpg">
+<ul>
+<li>An <em>introduction</em> allows you to add new methods or attributes to existing classes</li>
+</ul>
+<h4 id="Weaving"><a href="#Weaving" class="headerlink" title="Weaving"></a>Weaving</h4><ul>
+<li><em>Weaving</em> is the process of applying aspects to a target object to create a new proxied object</li>
+<li>The weaving can take place at several points in the target object’s lifetime :<blockquote>
+<ul>
+<li><code>Compile time</code> : Aspects are woven in when the target class is compiled. This requires a special compiler. AspectJ’s weaving compiler weaves aspects this way</li>
+<li><code>Class load time</code> : Aspects are woven in when the target class is loaded into the JVM. This requires a special ClassLoader that enhances the target class’s bytecode before the class is introduced into the application. AspectJ 5’s load-time weaving (LTW) support weaves aspects this way</li>
+<li><code>Runtime</code> : Aspects are woven in sometime during the execution of the application. Typically, an AOP container dynamically generates a proxy object that delegates to the target object while weaving in the aspects. This is how Spring AOP aspects are woven</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h3 id="Spring’s-AOP-support"><a href="#Spring’s-AOP-support" class="headerlink" title="Spring’s AOP support"></a>Spring’s AOP support</h3><ul>
+<li><p>Spring’s support for AOP comes in four styles :</p>
+<blockquote>
+<ul>
+<li>Classic Spring proxy-based AOP</li>
+<li>Pure-POJO aspects</li>
+<li><code>@AspectJ</code> annotation-driven aspects</li>
+<li>Injected AspectJ aspects (available in all versions of Spring)</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Spring AOP is built around dynamic proxies</p>
+</li>
+</ul>
+<h4 id="Spring-advice-is-written-in-Java"><a href="#Spring-advice-is-written-in-Java" class="headerlink" title="Spring advice is written in Java"></a>Spring advice is written in Java</h4><h4 id="Spring-advises-objects-at-runtime"><a href="#Spring-advises-objects-at-runtime" class="headerlink" title="Spring advises objects at runtime"></a>Spring advises objects at runtime</h4><img src="/2018/05/01/Spring-AOP-解析/5.jpg">
+<ul>
+<li>In Spring, aspects are woven into Spring-managed beans at runtime by wrapping them with a proxy class</li>
+<li>Spring creates proxies at runtime</li>
+</ul>
+<h4 id="Spring-only-supports-method-join-points"><a href="#Spring-only-supports-method-join-points" class="headerlink" title="Spring only supports method join points"></a>Spring only supports method join points</h4><ul>
+<li>Because it’s based on dynamic proxies, Spring only supports method join points</li>
+</ul>
+<h3 id="Selecting-join-points-with-pointcuts"><a href="#Selecting-join-points-with-pointcuts" class="headerlink" title="Selecting join points with pointcuts"></a>Selecting join points with pointcuts</h3><img src="/2018/05/01/Spring-AOP-解析/6.jpg">
+<ul>
+<li>The <code>execution</code> designator is the only one that actually performs matches</li>
+<li>The other designators are used to limit those matches</li>
+</ul>
+<h3 id="Passing-parameters-to-advice"><a href="#Passing-parameters-to-advice" class="headerlink" title="Passing parameters to advice"></a>Passing parameters to advice</h3><ul>
+<li>To do</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/Hiug-ed9gUPg8IA3PW-msA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/Hiug-ed9gUPg8IA3PW-msA</a></li>
 </ul>
 
       
@@ -558,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-简述"><span class="nav-number">2.</span> <span class="nav-text">Spring AOP 简述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题来源"><span class="nav-number">2.1.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最简单的方法"><span class="nav-number">2.2.1.</span> <span class="nav-text">最简单的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模板方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">模板方法</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-简述"><span class="nav-number">2.</span> <span class="nav-text">Spring AOP 简述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题来源"><span class="nav-number">2.1.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最简单的方法"><span class="nav-number">2.2.1.</span> <span class="nav-text">最简单的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式：模板方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">设计模式：模板方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式：装饰者"><span class="nav-number">2.2.3.</span> <span class="nav-text">设计模式：装饰者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">3.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-Terminology"><span class="nav-number">3.1.</span> <span class="nav-text">AOP Terminology</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Advice"><span class="nav-number">3.1.1.</span> <span class="nav-text">Advice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Join-Points"><span class="nav-number">3.1.2.</span> <span class="nav-text">Join Points</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pointcuts"><span class="nav-number">3.1.3.</span> <span class="nav-text">Pointcuts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Aspects"><span class="nav-number">3.1.4.</span> <span class="nav-text">Aspects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Introduction"><span class="nav-number">3.1.5.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Weaving"><span class="nav-number">3.1.6.</span> <span class="nav-text">Weaving</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring’s-AOP-support"><span class="nav-number">3.2.</span> <span class="nav-text">Spring’s AOP support</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-advice-is-written-in-Java"><span class="nav-number">3.2.1.</span> <span class="nav-text">Spring advice is written in Java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-advises-objects-at-runtime"><span class="nav-number">3.2.2.</span> <span class="nav-text">Spring advises objects at runtime</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-only-supports-method-join-points"><span class="nav-number">3.2.3.</span> <span class="nav-text">Spring only supports method join points</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Selecting-join-points-with-pointcuts"><span class="nav-number">3.3.</span> <span class="nav-text">Selecting join points with pointcuts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Passing-parameters-to-advice"><span class="nav-number">3.4.</span> <span class="nav-text">Passing parameters to advice</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
