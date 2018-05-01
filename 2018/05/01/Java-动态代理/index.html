@@ -86,10 +86,12 @@
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
 <meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-01T08:27:06.910Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Java-动态代理/UML.jpg">
+<meta property="og:updated_time" content="2018-05-01T09:08:20.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 动态代理">
 <meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/01/Java-动态代理/UML.jpg">
 
 
 
@@ -364,7 +366,8 @@
 <li>若代理类在编译期就已经确定，则称这种代理方式为<code>静态代理</code></li>
 <li>通常情况下，代理类和委托类会实现统一接口或继承自相同的父类</li>
 </ul>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><ul>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><img src="/2018/05/01/Java-动态代理/UML.jpg">
+<ul>
 <li>定义一个<code>接口</code>和一个<code>具体实现类</code></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IHelloWorld &#123;</span><br><span class="line">	public void sayHello();</span><br><span class="line">	public void sayBye();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -376,7 +379,7 @@
 <ul>
 <li>定义一个<code>代理类</code>，与<code>委托类</code>实现了同一接口<blockquote>
 <ul>
-<li>代理类内部持有一个委托类的实例，调用代理类的方法实际上是通过调用这个实例所属委托类的方法来实现</li>
+<li>代理对象持有一个实际对象的引用，外部调用时操作的是代理对象，而在代理对象的内部实现中又会去调用实际对象的操作</li>
 </ul>
 </blockquote>
 </li>
@@ -385,6 +388,31 @@
 <h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ul>
 <li>在运行前必须编写好代理类</li>
 <li>需要在需要增加功能的方法中都要添加相应的功能，如上文的在调用 hw 的方法前后都需要加入日志执行的代码</li>
+</ul>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><ul>
+<li>在运行时动态地创建代理类</li>
+<li>可以很方便地对代理类中的函数进行统一的处理</li>
+<li>内部是通过 Java 反射机制来实现的</li>
+</ul>
+<h3 id="具体实现-1"><a href="#具体实现-1" class="headerlink" title="具体实现"></a>具体实现</h3><ul>
+<li>如上文一样定义一个<code>接口</code>、一个<code>具体实现类</code>及一个<code>日志记录类</code></li>
+<li>定义一个位于<code>委托类</code>和<code>代理类</code>中间的<code>中介类</code>，要求实现 <code>InvocationHandler</code>接口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class LoggerHandler implements InvocationHandler &#123;</span><br><span class="line">	</span><br><span class="line">	private Object target;</span><br><span class="line">	</span><br><span class="line">	public LoggerHandler(Object target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">		Logger.startLog();		</span><br><span class="line">		Object result = method.invoke(target, args);	</span><br><span class="line">		Logger.endLog();</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定义一个测试类来查看效果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class TestProxy &#123;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	void test() &#123;</span><br><span class="line">		IHelloWorld hw = new HelloWorld();</span><br><span class="line">		LoggerHandler handler = new LoggerHandler(hw);</span><br><span class="line">		IHelloWorld proxy = (IHelloWorld) Proxy.newProxyInstance(</span><br><span class="line">				Thread.currentThread().getContextClassLoader(), </span><br><span class="line">				hw.getClass().getInterfaces(), handler);</span><br><span class="line">		proxy.sayHello();</span><br><span class="line">		System.out.println(&quot;----------&quot;);</span><br><span class="line">		proxy.sayBye();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Start Logging</span><br><span class="line">Hello World</span><br><span class="line">End Logging</span><br><span class="line">----------</span><br><span class="line">Start Logging</span><br><span class="line">Bye</span><br><span class="line">End Logging</span><br></pre></td></tr></table></figure>
+<ul>
+<li>同样也可以对调用的方法进行不同的处理，如只有调用<code>sayHello</code>方法前才开始记录日志，只有调用<code>sayBye</code>方法后才结束日志</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class LoggerHandler implements InvocationHandler &#123;</span><br><span class="line">	</span><br><span class="line">	private Object target;</span><br><span class="line">	</span><br><span class="line">	public LoggerHandler(Object target) &#123;</span><br><span class="line">		this.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">		if (&quot;sayHello&quot;.equals(method.getName())) &#123;</span><br><span class="line">			Logger.startLog();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		Object result = method.invoke(target, args);</span><br><span class="line">		</span><br><span class="line">		if (&quot;sayBye&quot;.equals(method.getName())) &#123;</span><br><span class="line">			Logger.endLog();</span><br><span class="line">		&#125;</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Start Logging</span><br><span class="line">Hello World</span><br><span class="line">----------</span><br><span class="line">Bye</span><br><span class="line">End Logging</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从上文可以看出，中介类持有一个委托类对象引用，在 invoke 方法中调用了委托类对象的相应方法，即中介类与委托类构成了静态代理关系。在这个关系中，中介类是代理类，委托类就是委托类。同样地，代理类与中介类也构成 了一个静态代理关系，在这个关系中，中介类是委托类，代理类就是代理类。即，<strong>动态代理关系是由两组静态代理关系组成的</strong>。</li>
 </ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://blog.csdn.net/andyzhaojianhui/article/details/72833114" target="_blank" rel="noopener">https://blog.csdn.net/andyzhaojianhui/article/details/72833114</a></li>
@@ -553,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用代理"><span class="nav-number">2.</span> <span class="nav-text">为什么使用代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态代理"><span class="nav-number">3.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">3.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用代理"><span class="nav-number">2.</span> <span class="nav-text">为什么使用代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态代理"><span class="nav-number">3.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">3.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态代理"><span class="nav-number">4.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现-1"><span class="nav-number">4.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
