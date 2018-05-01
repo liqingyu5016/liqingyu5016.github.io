@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
+<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 动态代理">
 <meta property="og:url" content="http://yoursite.com/2018/05/01/Java-动态代理/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
-<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
+<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/01/Java-动态代理/Proxy.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Java-动态代理/UML.jpg">
-<meta property="og:updated_time" content="2018-05-01T09:08:20.277Z">
+<meta property="og:updated_time" content="2018-05-01T11:54:40.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 动态代理">
-<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/01/Java-动态代理/UML.jpg">
+<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/01/Java-动态代理/Proxy.jpg">
 
 
 
@@ -358,6 +359,7 @@
 <li>本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
 <li>本文可与<a href="https://liqingyu5016.github.io/2018/05/01/Spring-AOP-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">《Spring AOP 解析》</a> 对照理解</li>
 </ul>
+<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><img src="/2018/05/01/Java-动态代理/Proxy.jpg">
 <h2 id="为什么使用代理"><a href="#为什么使用代理" class="headerlink" title="为什么使用代理"></a>为什么使用代理</h2><ul>
 <li>可以隐藏委托类的实现</li>
 <li>可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理</li>
@@ -366,7 +368,7 @@
 <li>若代理类在编译期就已经确定，则称这种代理方式为<code>静态代理</code></li>
 <li>通常情况下，代理类和委托类会实现统一接口或继承自相同的父类</li>
 </ul>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><img src="/2018/05/01/Java-动态代理/UML.jpg">
+<h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><img src="/2018/05/01/Java-动态代理/UML.jpg">
 <ul>
 <li>定义一个<code>接口</code>和一个<code>具体实现类</code></li>
 </ul>
@@ -394,7 +396,19 @@
 <li>可以很方便地对代理类中的函数进行统一的处理</li>
 <li>内部是通过 Java 反射机制来实现的</li>
 </ul>
-<h3 id="具体实现-1"><a href="#具体实现-1" class="headerlink" title="具体实现"></a>具体实现</h3><ul>
+<h3 id="InvocationHandler"><a href="#InvocationHandler" class="headerlink" title="InvocationHandler"></a>InvocationHandler</h3><ul>
+<li>接口中仅定义了一个方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public Object invoke(Object proxy, Method method, Object[] args)</span><br><span class="line">    throws Throwable;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中 obj 一般是代理类，method 指被代理的方法，args 为该方法的参数数组</li>
+</ul>
+<h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><ul>
+<li>static Class getProxyClass (ClassLoader loader, Class[] interfaces)：获得一个代理类，其中 loader 是类装载器，interfaces 是委托类所拥有的全部接口的数组</li>
+<li>static Object newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h)：返回代理类的一个实例，返回后的代理类可以当作委托类使用</li>
+<li>对于从 Object 中继承的方法，JDK Proxy 会把 hashCode()、equals()、toString() 这三个非接口方法转发给 InvocationHandler，其余的 Object 方法则不会转发</li>
+</ul>
+<h3 id="具体使用-1"><a href="#具体使用-1" class="headerlink" title="具体使用"></a>具体使用</h3><ul>
 <li>如上文一样定义一个<code>接口</code>、一个<code>具体实现类</code>及一个<code>日志记录类</code></li>
 <li>定义一个位于<code>委托类</code>和<code>代理类</code>中间的<code>中介类</code>，要求实现 <code>InvocationHandler</code>接口</li>
 </ul>
@@ -412,10 +426,30 @@
 <p>输出结果为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Start Logging</span><br><span class="line">Hello World</span><br><span class="line">----------</span><br><span class="line">Bye</span><br><span class="line">End Logging</span><br></pre></td></tr></table></figure>
 <ul>
-<li>从上文可以看出，中介类持有一个委托类对象引用，在 invoke 方法中调用了委托类对象的相应方法，即中介类与委托类构成了静态代理关系。在这个关系中，中介类是代理类，委托类就是委托类。同样地，代理类与中介类也构成 了一个静态代理关系，在这个关系中，中介类是委托类，代理类就是代理类。即，<strong>动态代理关系是由两组静态代理关系组成的</strong>。</li>
+<li><p>从上文可以看出，中介类持有一个委托类对象引用，在 invoke 方法中调用了委托类对象的相应方法，即中介类与委托类构成了静态代理关系。在这个关系中，中介类是代理类，委托类就是委托类。同样地，代理类与中介类也构成 了一个静态代理关系，在这个关系中，中介类是委托类，代理类就是代理类。即，<strong>动态代理关系是由两组静态代理关系组成的</strong></p>
+</li>
+<li><p>上述的代码可以针对另外一个接口 MyInterface 和类 MyInterfaceImpl 做代理，可以对 LoggerHandler 这个类复用</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MyInterface inter = new MyInterfaceImpl();</span><br><span class="line">LoggerHandler handler = new LoggerHandler(inter);</span><br><span class="line">MyInterface proxy = (MyInterface) Proxy.newProxyInstance(</span><br><span class="line">		Thread.currentThread().getContextClassLoader(), </span><br><span class="line">		inter.getClass().getInterfaces(), handler);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若 MyInterface 和 IHelloWorld 实现自同一接口，那么上面的代码可以实现进一步抽象以应对更复杂的情况</li>
+<li>上述的 LoggerHandler 即相当于 Spring AOP 中的一个切面<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3></li>
+<li>To do<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
+<li>实现 Java 动态代理的前提是委托类必须是实现了接口的类</li>
+<li>实现 Java 动态代理的具体步骤：<blockquote>
+<ul>
+<li>通过实现 InvocationHandler 接口创建自己的调用处理器</li>
+<li>通过为 Proxy 类指定 ClassLoader 对象和一组 interface 来创建动态代理类</li>
+<li>通过反射机制获得动态代理类的构造函数，其唯一参数类型是调用处理器接口类型</li>
+<li>通过构造函数创建动态代理类实例，构造时调用处理器对象作为参数被传入</li>
+</ul>
+</blockquote>
+</li>
 </ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://blog.csdn.net/andyzhaojianhui/article/details/72833114" target="_blank" rel="noopener">https://blog.csdn.net/andyzhaojianhui/article/details/72833114</a></li>
+<li><a href="https://blog.csdn.net/jiankunking/article/details/52143504" target="_blank" rel="noopener">https://blog.csdn.net/jiankunking/article/details/52143504</a></li>
 </ul>
 
       
@@ -581,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用代理"><span class="nav-number">2.</span> <span class="nav-text">为什么使用代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态代理"><span class="nav-number">3.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">3.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态代理"><span class="nav-number">4.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现-1"><span class="nav-number">4.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">2.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用代理"><span class="nav-number">3.</span> <span class="nav-text">为什么使用代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态代理"><span class="nav-number">4.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体使用"><span class="nav-number">4.1.</span> <span class="nav-text">具体使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">4.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态代理"><span class="nav-number">5.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InvocationHandler"><span class="nav-number">5.1.</span> <span class="nav-text">InvocationHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy"><span class="nav-number">5.2.</span> <span class="nav-text">Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体使用-1"><span class="nav-number">5.3.</span> <span class="nav-text">具体使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">5.4.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
