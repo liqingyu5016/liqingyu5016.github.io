@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hello hexo">
-<meta property="og:url" content="http://yoursite.com/2018/05/01/hello-hexo/index.html">
+<meta property="og:title" content="Java 动态代理">
+<meta property="og:url" content="http://yoursite.com/2018/05/01/Java-动态代理/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
+<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-01T02:15:55.078Z">
+<meta property="og:updated_time" content="2018-05-01T08:27:06.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hello hexo">
+<meta name="twitter:title" content="Java 动态代理">
+<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通常情况下，">
 
 
 
@@ -116,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/01/hello-hexo/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/01/Java-动态代理/"/>
 
 
 
 
 
-  <title>hello hexo | Liqingyu's Blog</title>
+  <title>Java 动态代理 | Liqingyu's Blog</title>
   
 
 
@@ -249,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/hello-hexo/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/Java-动态代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Li Qingyu">
@@ -266,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hello hexo</h1>
+          <h1 class="post-title" itemprop="name headline">Java 动态代理</h1>
         
 
         <div class="post-meta">
@@ -278,7 +281,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-01T10:15:55+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-01T14:59:54+08:00">
                 2018-05-01
               </time>
             
@@ -289,6 +292,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-SE/" itemprop="url" rel="index">
+                    <span itemprop="name">Java SE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -296,7 +321,7 @@
 
           
           
-             <span id="/2018/05/01/hello-hexo/" class="leancloud_visitors" data-flag-title="hello hexo">
+             <span id="/2018/05/01/Java-动态代理/" class="leancloud_visitors" data-flag-title="Java 动态代理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -327,7 +352,44 @@
       
 
       
-        
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
+<li>本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
+<li>本文可与<a href="https://liqingyu5016.github.io/2018/05/01/Spring-AOP-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">《Spring AOP 解析》</a> 对照理解</li>
+</ul>
+<h2 id="为什么使用代理"><a href="#为什么使用代理" class="headerlink" title="为什么使用代理"></a>为什么使用代理</h2><ul>
+<li>可以隐藏委托类的实现</li>
+<li>可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理</li>
+</ul>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><ul>
+<li>若代理类在编译期就已经确定，则称这种代理方式为<code>静态代理</code></li>
+<li>通常情况下，代理类和委托类会实现统一接口或继承自相同的父类</li>
+</ul>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><ul>
+<li>定义一个<code>接口</code>和一个<code>具体实现类</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IHelloWorld &#123;</span><br><span class="line">	public void sayHello();</span><br><span class="line">	public void sayBye();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld implements IHelloWorld &#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void sayHello() &#123;</span><br><span class="line">		System.out.println(&quot;Hello World&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void sayBye() &#123;</span><br><span class="line">		System.out.println(&quot;Bye&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定义一个日志纪录类（用于功能加强）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Logger &#123;</span><br><span class="line"></span><br><span class="line">	public static void startLog() &#123;</span><br><span class="line">		System.out.println(&quot;Start Logging&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void endLog() &#123;</span><br><span class="line">		System.out.println(&quot;End Logging&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定义一个<code>代理类</code>，与<code>委托类</code>实现了同一接口<blockquote>
+<ul>
+<li>代理类内部持有一个委托类的实例，调用代理类的方法实际上是通过调用这个实例所属委托类的方法来实现</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorldProxy implements IHelloWorld &#123;</span><br><span class="line"></span><br><span class="line">	private HelloWorld hw;</span><br><span class="line">	</span><br><span class="line">	public HelloWorldProxy(HelloWorld hw) &#123;</span><br><span class="line">		this.hw = hw;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void sayHello() &#123;</span><br><span class="line">		Logger.startLog();</span><br><span class="line">		hw.sayHello();</span><br><span class="line">		Logger.endLog();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void sayBye() &#123;</span><br><span class="line">		Logger.startLog();</span><br><span class="line">		hw.sayBye();</span><br><span class="line">		Logger.endLog();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ul>
+<li>在运行前必须编写好代理类</li>
+<li>需要在需要增加功能的方法中都要添加相应的功能，如上文的在调用 hw 的方法前后都需要加入日志执行的代码</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.csdn.net/andyzhaojianhui/article/details/72833114" target="_blank" rel="noopener">https://blog.csdn.net/andyzhaojianhui/article/details/72833114</a></li>
+</ul>
+
       
     </div>
     
@@ -351,15 +413,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/05/01/Spring-AOP-解析/" rel="next" title="Spring AOP 解析">
+                <i class="fa fa-chevron-left"></i> Spring AOP 解析
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/01/HashMap-及-ConcurrentHashMap-解析/" rel="prev" title="HashMap 及 ConcurrentHashMap 解析">
-                HashMap 及 ConcurrentHashMap 解析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -411,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -472,6 +543,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用代理"><span class="nav-number">2.</span> <span class="nav-text">为什么使用代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态代理"><span class="nav-number">3.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">3.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
