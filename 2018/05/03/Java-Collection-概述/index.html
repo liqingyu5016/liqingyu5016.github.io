@@ -86,13 +86,16 @@
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
 <meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Collection 接口Collection 总体框架 Collection 定义的方法 1public interface Collection&amp;lt;E&amp;gt; extends Iterable&amp;lt;E&amp;gt; Iterator 接口Iterator 接口中主要包含两个方法：hasNext() 和 next()，提">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/6.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/Frame.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/1.jpg">
-<meta property="og:updated_time" content="2018-05-08T06:47:52.441Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/rotate1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/rotate2.jpg">
+<meta property="og:updated_time" content="2018-05-08T06:51:33.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Collection  概述">
 <meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Collection 接口Collection 总体框架 Collection 定义的方法 1public interface Collection&amp;lt;E&amp;gt; extends Iterable&amp;lt;E&amp;gt; Iterator 接口Iterator 接口中主要包含两个方法：hasNext() 和 next()，提">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/Frame.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/03/Java-Collection-概述/6.jpg">
 
 
 
@@ -358,7 +361,7 @@
         <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
 <li>由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
 </ul>
-<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2>
+<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><img src="/2018/05/03/Java-Collection-概述/6.jpg">
 <h2 id="Collection-接口"><a href="#Collection-接口" class="headerlink" title="Collection 接口"></a>Collection 接口</h2><h3 id="Collection-总体框架"><a href="#Collection-总体框架" class="headerlink" title="Collection 总体框架"></a>Collection 总体框架</h3><img src="/2018/05/03/Java-Collection-概述/Frame.jpg">
 <h3 id="Collection-定义的方法"><a href="#Collection-定义的方法" class="headerlink" title="Collection 定义的方法"></a>Collection 定义的方法</h3><img src="/2018/05/03/Java-Collection-概述/1.jpg">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface Collection&lt;E&gt; extends Iterable&lt;E&gt;</span><br></pre></td></tr></table></figure>
@@ -400,10 +403,10 @@
 <h3 id="rotate"><a href="#rotate" class="headerlink" title="rotate"></a>rotate</h3><p>源码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void rotate(List&lt;?&gt; list, int distance) &#123;</span><br><span class="line">    if (list instanceof RandomAccess || list.size() &lt; ROTATE_THRESHOLD)</span><br><span class="line">        rotate1(list, distance);</span><br><span class="line">    else</span><br><span class="line">        rotate2(list, distance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>应用此方法后，原先在 i 位置的元素将放在 (i - distance) % list.size() 上。同时，此方法可以用于 list 的 subList 上，效果是原 list 上不在 subList 中的元素顺序保持原样，而 subList 进行旋转</p>
 <p>rotate1 方法的源码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private static &lt;T&gt; void rotate1(List&lt;T&gt; list, int distance) &#123;</span><br><span class="line">    int size = list.size();</span><br><span class="line">    if (size == 0)</span><br><span class="line">        return;</span><br><span class="line">    distance = distance % size;</span><br><span class="line">    if (distance &lt; 0)</span><br><span class="line">        distance += size;</span><br><span class="line">    if (distance == 0)</span><br><span class="line">        return;</span><br><span class="line">	// 将 i 位置上的元素依次往后移 distance 个位置，最后一个元素移至相对应的第一个元素之前的位置</span><br><span class="line">    for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) &#123;</span><br><span class="line">        T displaced = list.get(cycleStart);</span><br><span class="line">        int i = cycleStart;</span><br><span class="line">        do &#123;</span><br><span class="line">            i += distance;</span><br><span class="line">            if (i &gt;= size)</span><br><span class="line">                i -= size;</span><br><span class="line">            displaced = list.set(i, displaced);</span><br><span class="line">            nMoved ++;</span><br><span class="line">        &#125; while (i != cycleStart);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
+<img src="/2018/05/03/Java-Collection-概述/rotate1.jpg">
 <p>for 循环一次的效果如图所示，针对本例子 for 循环执行两次即可完成 rotate 操作</p>
 <p>rotate2 方法的源码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private static void rotate2(List&lt;?&gt; list, int distance) &#123;</span><br><span class="line">    int size = list.size();</span><br><span class="line">    if (size == 0)</span><br><span class="line">        return;</span><br><span class="line">    int mid =  -distance % size;</span><br><span class="line">    if (mid &lt; 0)</span><br><span class="line">        mid += size;</span><br><span class="line">    if (mid == 0)</span><br><span class="line">        return;</span><br><span class="line"></span><br><span class="line">    reverse(list.subList(0, mid));</span><br><span class="line">    reverse(list.subList(mid, size));</span><br><span class="line">    reverse(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
+<img src="/2018/05/03/Java-Collection-概述/rotate2.jpg">
 <p>rotate2 方法设计的很巧妙，先将 list 前一部分和后一部分元素分别逆序，然后将整个 list 逆序即可完成 rotate 操作</p>
 <h3 id="shuffle"><a href="#shuffle" class="headerlink" title="shuffle"></a>shuffle</h3><p>shuffle 方法用于将 list 内的元素随机排列，底层实现是从后往前遍历整个 list，将 i 位置上的元素与 i 位置及其之前位置的随机一个元素进行交换。对于不支持随机访问的 list，通过 list.toArray 方法转换为数组，然后对数组进行随机排列，再通过一一映射回原 list 即可</p>
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>Collections 还有一些其他比较实用的方法，如 copy、max、min、replaceAll 、swap 等方法，由于源码比较简单，故不做介绍。</p>
