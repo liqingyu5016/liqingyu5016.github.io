@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Spring-AOP-解析/3.jpg">
-<meta property="og:updated_time" content="2018-05-01T13:12:37.119Z">
+<meta property="og:updated_time" content="2018-05-08T11:21:59.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP 解析">
 <meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 问题来源 做系统设计时，一个很重要的工作就是将系统分解，按业务功能分解成一个个低耦合、高内聚的模块 分解之后发现有些功能是通用的，如  日志 ：对特定的操作输出日志来记录 安全 ：在执行操作之前进行操作检查 性能 ：要统计每个方法的执行">
@@ -414,6 +414,7 @@
 </blockquote>
 </li>
 </ul>
+<hr>
 <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
 <li>鉴于装饰者模式的缺点，最好把日志、安全、事务这样的代码和业务代码完全隔离开来，因为它们的关注点和业务代码的关注点完全不同<img src="/2018/05/01/Spring-AOP-解析/3.jpg">
 </li>
@@ -435,6 +436,7 @@
 </blockquote>
 </li>
 </ul>
+<hr>
 <h2 id="Spring-AOP-术语"><a href="#Spring-AOP-术语" class="headerlink" title="Spring AOP 术语"></a>Spring AOP 术语</h2><h3 id="横切关注点"><a href="#横切关注点" class="headerlink" title="横切关注点"></a>横切关注点</h3><ul>
 <li>分布在整个应用多处的功能，如日志、安全、事务等</li>
 <li>可以被模块化为特殊的类，这些类被称为<code>切面</code>（aspect）<h3 id="通知（Advice）"><a href="#通知（Advice）" class="headerlink" title="通知（Advice）"></a>通知（Advice）</h3></li>
@@ -478,6 +480,7 @@
 </blockquote>
 </li>
 </ul>
+<hr>
 <h2 id="Spring-AOP-实现机制"><a href="#Spring-AOP-实现机制" class="headerlink" title="Spring AOP 实现机制"></a>Spring AOP 实现机制</h2><ul>
 <li>AOP 实现的关键在于 AOP 框架自动创建的 AOP 代理</li>
 <li>AOP 代理主要分为<code>静态代理</code>和<code>动态代理</code></li>
@@ -520,6 +523,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Silencing cell phones</span><br><span class="line">Taking seats</span><br><span class="line">The movie is performing</span><br><span class="line">CLAP CLAP CLAP!!!</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<hr>
 <h3 id="CGLIB-动态代理"><a href="#CGLIB-动态代理" class="headerlink" title="CGLIB 动态代理"></a>CGLIB 动态代理</h3><ul>
 <li>若目标类没有实现接口，则 Spring AOP 会使用 <code>CGLIB</code> 来动态代理目标类</li>
 <li>CGLIB 是一个代码生成的类库，可以在运行时动态的生成某个类的子类</li>
@@ -651,7 +655,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -673,7 +677,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

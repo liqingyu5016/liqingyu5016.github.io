@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Map 解析">
 <meta property="og:url" content="http://yoursite.com/2018/05/08/Java-Map-解析/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
+<meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-08T08:50:02.155Z">
+<meta property="og:updated_time" content="2018-05-08T11:59:13.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Map 解析">
+<meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
 
 
 
@@ -289,6 +292,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-SE/" itemprop="url" rel="index">
+                    <span itemprop="name">Java SE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -327,7 +352,18 @@
       
 
       
-        
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
+<li>由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
+</ul>
+<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2>
+<h2 id="Map-接口"><a href="#Map-接口" class="headerlink" title="Map 接口"></a>Map 接口</h2><p>Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&lt;K, V&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图</span><br><span class="line">// 即此接口实现类对象组成的 Set 对象</span><br><span class="line">interface Entry&lt;K,V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    K getKey();</span><br><span class="line">    </span><br><span class="line">    V getValue();</span><br><span class="line"></span><br><span class="line">    V setValue(V value);</span><br><span class="line"></span><br><span class="line">    boolean equals(Object o);</span><br><span class="line"></span><br><span class="line">    int hashCode();</span><br><span class="line"></span><br><span class="line">    public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByKey() &#123;</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; c1.getKey().compareTo(c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V extends Comparable&lt;? super V&gt;&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByValue() &#123;</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; c1.getValue().compareTo(c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByKey(Comparator&lt;? super K&gt; cmp) &#123;</span><br><span class="line">        Objects.requireNonNull(cmp);</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; cmp.compare(c1.getKey(), c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByValue(Comparator&lt;? super V&gt; cmp) &#123;</span><br><span class="line">        Objects.requireNonNull(cmp);</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; cmp.compare(c1.getValue(), c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Map 无法直接用 Iterator 进行遍历，而是需要先获取 Map 的视图，有三种方式，分别是：</p>
+<ul>
+<li>entrySet()：返回 Map 中所包含映射的 Set 视图</li>
+<li>keySet()：返回 Map 中所包含 key 的 Set 视图（因为 key 不能重复，故使用 Set 视图）</li>
+<li>valueSet()：返回 Map 中所包含 value 的 Collection 视图</li>
+</ul>
+
       
     </div>
     
@@ -411,8 +447,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -427,7 +472,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -449,7 +494,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -472,6 +517,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">2.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-接口"><span class="nav-number">3.</span> <span class="nav-text">Map 接口</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

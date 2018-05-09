@@ -87,7 +87,7 @@
 <meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  List 接口 1public interface List&amp;lt;E&amp;gt; extends Collection&amp;lt;E&amp;gt; List 是一个元素有序的、可以重复、可以为 null 的集合List 中有具体实现的方法如下文 replaceAll (UnaryOperator operator)具体实现源码如下1234567">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/05/07/Java-List-解析/2.jpg">
-<meta property="og:updated_time" content="2018-05-08T06:50:02.344Z">
+<meta property="og:updated_time" content="2018-05-08T11:23:58.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java List 解析">
 <meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  List 接口 1public interface List&amp;lt;E&amp;gt; extends Collection&amp;lt;E&amp;gt; List 是一个元素有序的、可以重复、可以为 null 的集合List 中有具体实现的方法如下文 replaceAll (UnaryOperator operator)具体实现源码如下1234567">
@@ -372,6 +372,7 @@
 <p>输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3, 4, 5, 6]</span><br><span class="line">[6, 5, 4, 3, 2, 1]</span><br></pre></td></tr></table></figure></p>
 <h3 id="List-subList-int-fromIndex-int-toIndex"><a href="#List-subList-int-fromIndex-int-toIndex" class="headerlink" title="List.subList(int fromIndex, int toIndex)"></a>List.subList(int fromIndex, int toIndex)</h3><p>此方法返回 List 在 fromIndex 与 toIndex 范围内的子集，注意是左闭右开</p>
 <p>subList 返回的仍是 List 原来的引用，只不过把开始位置 offset 和 size 改了下，即对 subList 的操作会影响到原有的 List。List.subList() 在 AbstractList 抽象类中实现的源码如下 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;E&gt; subList(int start, int end) &#123;</span><br><span class="line">    if (start &gt;= 0 &amp;&amp; end &lt;= size()) &#123;</span><br><span class="line">        if (start &lt;= end) &#123;</span><br><span class="line">            if (this instanceof RandomAccess) &#123;</span><br><span class="line">                return new SubAbstractListRandomAccess&lt;E&gt;(this, start, end);</span><br><span class="line">            &#125;</span><br><span class="line">            return new SubAbstractList&lt;E&gt;(this, start, end);</span><br><span class="line">        &#125;</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    &#125;</span><br><span class="line">    throw new IndexOutOfBoundsException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
 <h2 id="ArrayList-类"><a href="#ArrayList-类" class="headerlink" title="ArrayList 类"></a>ArrayList 类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;</span><br><span class="line">        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>ArrayList 底层的数据结构仍然是数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 存放元素的数组</span><br><span class="line">transient Object[] elementData;</span><br></pre></td></tr></table></figure></p>
 <p>ArrayList 默认的初始容量为 10</p>
@@ -402,6 +403,7 @@
 <p>同样调用 了 <code>batchRemove</code> 方法，相当于 <code>replaceAll(Collection&lt;?&gt; c)</code> 的一个互补操作</p>
 <h3 id="trimToSize"><a href="#trimToSize" class="headerlink" title="trimToSize()"></a>trimToSize()</h3><p>源码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void trimToSize() &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    if (size &lt; elementData.length) &#123;</span><br><span class="line">        elementData = (size == 0)</span><br><span class="line">          ? EMPTY_ELEMENTDATA</span><br><span class="line">          : Arrays.copyOf(elementData, size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>作用是将 elementData 减容至 size</p>
+<hr>
 <h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class LinkedList&lt;E&gt;</span><br><span class="line">    extends AbstractSequentialList&lt;E&gt;</span><br><span class="line">    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>底层的数据结构是双向链表，由内部私有类 Node 实现，可以被当作堆栈、队列及双端队列进行操作</p>
 <h3 id="add-int-index-E-element-1"><a href="#add-int-index-E-element-1" class="headerlink" title="add(int index, E element)"></a>add(int index, E element)</h3><p>使用 add 方法可以实现在指定的位置插入一个新的节点，基本流程是先在原有链表中找到指定位置的节点，然后在该节点前面插入一个新节点。如何寻找指定位置的节点源码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Node&lt;E&gt; node(int index) &#123;</span><br><span class="line">    // assert isElementIndex(index);</span><br><span class="line"></span><br><span class="line">    if (index &lt; (size &gt;&gt; 1)) &#123;</span><br><span class="line">        Node&lt;E&gt; x = first;</span><br><span class="line">        for (int i = 0; i &lt; index; i++)</span><br><span class="line">            x = x.next;</span><br><span class="line">        return x;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        Node&lt;E&gt; x = last;</span><br><span class="line">        for (int i = size - 1; i &gt; index; i--)</span><br><span class="line">            x = x.prev;</span><br><span class="line">        return x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -413,6 +415,7 @@
 <li>插入、删除操作很快</li>
 <li>访问其中的某个元素比较慢，可能是从头往尾找，也可能是从尾往头找</li>
 </ul>
+<hr>
 <h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>Vector 本身和 ArrayList 差别并不大，底层的数据结构均是数组，不过还是有稍许区别：</p>
 <ul>
 <li>Vector 可以指定每次的扩容长度，即 <code>capacityIncrement</code>。此外，Vector 扩容后容量是原来的两倍</li>
@@ -532,7 +535,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -554,7 +557,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

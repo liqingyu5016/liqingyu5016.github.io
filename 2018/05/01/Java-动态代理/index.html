@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
+<meta name="description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理   静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 动态代理">
 <meta property="og:url" content="http://yoursite.com/2018/05/01/Java-动态代理/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
-<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
+<meta property="og:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理   静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Java-动态代理/Proxy.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/01/Java-动态代理/UML.jpg">
-<meta property="og:updated_time" content="2018-05-01T13:19:31.194Z">
+<meta property="og:updated_time" content="2018-05-08T11:22:37.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 动态代理">
-<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理  静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理 通">
+<meta name="twitter:description" content="写在前面 本文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵 本文可与《Spring AOP 解析》 对照理解  思维导图 为什么使用代理 可以隐藏委托类的实现 可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理   静态代理 若代理类在编译期就已经确定，则称这种代理方式为静态代理">
 <meta name="twitter:image" content="http://yoursite.com/2018/05/01/Java-动态代理/Proxy.jpg">
 
 
@@ -364,6 +364,7 @@
 <li>可以隐藏委托类的实现</li>
 <li>可以实现客户与委托类间的解耦，在不修改委托类的代码的情况下能够加入额外的处理</li>
 </ul>
+<hr>
 <h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><ul>
 <li>若代理类在编译期就已经确定，则称这种代理方式为<code>静态代理</code></li>
 <li>通常情况下，代理类和委托类会实现统一接口或继承自相同的父类</li>
@@ -391,6 +392,7 @@
 <li>在运行前必须编写好代理类</li>
 <li>需要在需要增加功能的方法中都要添加相应的功能，如上文的在调用 hw 的方法前后都需要加入日志执行的代码</li>
 </ul>
+<hr>
 <h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><ul>
 <li>在运行时动态地创建代理类</li>
 <li>可以很方便地对代理类中的函数进行统一的处理</li>
@@ -469,6 +471,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.h.invoke(this, m3, null);</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<hr>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>实现 Java 动态代理的前提是委托类必须是实现了接口的类</li>
 <li>Java 动态代理只能代理实现了接口的类的原因是由 Java 自动生成的代理类继承自 Proxy，而 Java 是不允许多继承</li>
@@ -600,7 +603,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -622,7 +625,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

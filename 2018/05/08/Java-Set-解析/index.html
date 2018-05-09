@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
 <meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  Set 接口Set 也是一种用于存储元素的集合，但 Set 内的元素是无序且不重复的 Set 中没有特有的方法，直接继承自 Collection 相等性引用到堆上同一个对象的两个引用是相等的。如果对两个引用调用 hashCode 方法，会得到相同的结果 如果对象所属的类没有覆盖 Object 的 hashCode方法 的话，hash">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-08T09:27:00.742Z">
+<meta property="og:updated_time" content="2018-05-08T11:31:03.601Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Set 解析">
 <meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  Set 接口Set 也是一种用于存储元素的集合，但 Set 内的元素是无序且不重复的 Set 中没有特有的方法，直接继承自 Collection 相等性引用到堆上同一个对象的两个引用是相等的。如果对两个引用调用 hashCode 方法，会得到相同的结果 如果对象所属的类没有覆盖 Object 的 hashCode方法 的话，hash">
@@ -369,22 +369,25 @@
 <p>hashCode 是为了提高在散列结构存储中查找的效率，在线性表中没有作用</p>
 <p>同一对象在执行期间若已经存储在集合中，则不能修改影响 hashCode 值的相关信息，否则会导致内存泄露问题</p>
 <p>如果想要让类的两个不同对象视为相等，就必须重写 Object 中的 hashCode 方法和 equals 方法</p>
+<hr>
 <h2 id="HashSet-类"><a href="#HashSet-类" class="headerlink" title="HashSet 类"></a>HashSet 类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class HashSet&lt;E&gt;</span><br><span class="line">    extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements Set&lt;E&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>HashSet 类的底层数据结构是 HashMap，即 HashSet 类的所有方法实际上都是通过 HashMap 类的方法实现的，故在此不作深究，具体可参考 <a href="https://liqingyu5016.github.io/2018/05/08/Java-Map-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">Java Map 解析</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 默认初始容量为 16，负载因子为 0.75</span><br><span class="line">private transient HashMap&lt;E,Object&gt; map;</span><br></pre></td></tr></table></figure></p>
 <p>而因为 Map 存储的是键-值对的元素，故 HashSet 类内部包含了一个类实例 PRESENT ，即 map 中的所有 value 都是这个 PRESENT<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final Object PRESENT = new Object();</span><br></pre></td></tr></table></figure></p>
 <p>HashSet 的 clone 方法同样是浅拷贝</p>
+<hr>
 <h2 id="LinkedHashSet-类"><a href="#LinkedHashSet-类" class="headerlink" title="LinkedHashSet 类"></a>LinkedHashSet 类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class LinkedHashSet&lt;E&gt;</span><br><span class="line">    extends HashSet&lt;E&gt;</span><br><span class="line">    implements Set&lt;E&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>LinkedHashSet 类的底层数据结构是 LinkedHashMap，具体可参考 <a href="https://liqingyu5016.github.io/2018/05/08/Java-Map-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">Java Map 解析</a> </p>
 <p>LinkedHashSet 的构造函数都是通过调用 HashSet 的一个具有包访问权限的构造函数实现的</p>
 <p>LinkedHashSet 的好处在于可以保证访问元素的顺序和插入元素的顺序相同</p>
 <h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; set = new HashSet&lt;&gt;(Arrays.asList(&quot;Java&quot;, &quot;Python&quot;, &quot;C&quot;, &quot;PHP&quot;));</span><br><span class="line">Iterator&lt;String&gt; iterator = set.iterator();</span><br><span class="line">while (iterator.hasNext()) &#123;</span><br><span class="line">	System.out.println(iterator.next());</span><br><span class="line">&#125;</span><br><span class="line">Set&lt;String&gt; set2 = new LinkedHashSet&lt;&gt;(Arrays.asList(&quot;Java&quot;, &quot;Python&quot;, &quot;C&quot;, &quot;PHP&quot;));</span><br><span class="line">Iterator&lt;String&gt; iterator2 = set2.iterator();</span><br><span class="line">while (iterator2.hasNext()) &#123;</span><br><span class="line">	System.out.println(iterator2.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line">C</span><br><span class="line">PHP</span><br><span class="line">Python</span><br><span class="line">Java</span><br><span class="line">Python</span><br><span class="line">C</span><br><span class="line">PHP</span><br></pre></td></tr></table></figure></p>
+<hr>
 <h2 id="TreeSet-类"><a href="#TreeSet-类" class="headerlink" title="TreeSet 类"></a>TreeSet 类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class TreeSet&lt;E&gt; extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements NavigableSet&lt;E&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>TreeSet 类的底层数据结构是 TreeMap，具体可参考 <a href="https://liqingyu5016.github.io/2018/05/08/Java-Map-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">Java Map 解析</a> </p>
 <p>TreeSet 的有点在于可以确保集合元素处于排序状态（排序规则可以自定义）</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Set 源码阅读十分简单，因为 Set 实现类的底层数据结构都是相应的 Map 实现类，故重点全放在 Map 源码中</p>
 <p>作为 key 的对象要正确重写 equals 和 hashCode 方法</p>
-<p>严格意义上，存在 Set 的意义应该在于 Set 继承自 Collection，否则 Set 应该可以被 Map 代替</p>
+<p>Set 更像一个功能被限制了的 Map</p>
 
       
     </div>
@@ -498,7 +501,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -520,7 +523,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
