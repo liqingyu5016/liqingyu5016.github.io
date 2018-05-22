@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面 本文内容来源于红色的《算法》一书，由于个人理解水平有限，故部分内容可能会出现错误，还请包涵  2-3 查找树我们已经知道在最坏的情况下，BST 的查找性能等同于链表。我们希望能够找到一种二分查找树，并能保证无论如何构造它，该树的运行时间都是对数级别的 理想情况下，我们希望一颗含有 N 个结点的树的树高为 lgN。但在动态插入中保证树的完美平衡代价太高，我们可以适当地放宽要求，于是 2-3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树 (二)：2-3 查找树及红黑二叉查找树">
+<meta property="og:url" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/index.html">
+<meta property="og:site_name" content="Liqingyu&#39;s Blog">
+<meta property="og:description" content="写在前面 本文内容来源于红色的《算法》一书，由于个人理解水平有限，故部分内容可能会出现错误，还请包涵  2-3 查找树我们已经知道在最坏的情况下，BST 的查找性能等同于链表。我们希望能够找到一种二分查找树，并能保证无论如何构造它，该树的运行时间都是对数级别的 理想情况下，我们希望一颗含有 N 个结点的树的树高为 lgN。但在动态插入中保证树的完美平衡代价太高，我们可以适当地放宽要求，于是 2-3">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/6.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/9.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/10.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/11.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/12.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/13.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/14.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/15.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/16.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/17.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/18.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/19.jpg">
+<meta property="og:updated_time" content="2018-05-12T13:16:31.441Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树 (二)：2-3 查找树及红黑二叉查找树">
+<meta name="twitter:description" content="写在前面 本文内容来源于红色的《算法》一书，由于个人理解水平有限，故部分内容可能会出现错误，还请包涵  2-3 查找树我们已经知道在最坏的情况下，BST 的查找性能等同于链表。我们希望能够找到一种二分查找树，并能保证无论如何构造它，该树的运行时间都是对数级别的 理想情况下，我们希望一颗含有 N 个结点的树的树高为 lgN。但在动态插入中保证树的完美平衡代价太高，我们可以适当地放宽要求，于是 2-3">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/"/>
+
+
+
+
+
+  <title>树 (二)：2-3 查找树及红黑二叉查找树 | Liqingyu's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liqingyu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/树-二-：2-3-查找树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Li Qingyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liqingyu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">树 (二)：2-3 查找树及红黑二叉查找树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-11T20:17:36+08:00">
+                2018-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/11/树-二-：2-3-查找树/" class="leancloud_visitors" data-flag-title="树 (二)：2-3 查找树及红黑二叉查找树">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
+<li>本文内容来源于红色的《算法》一书，由于个人理解水平有限，故部分内容可能会出现错误，还请包涵</li>
+</ul>
+<h2 id="2-3-查找树"><a href="#2-3-查找树" class="headerlink" title="2-3 查找树"></a>2-3 查找树</h2><p>我们已经知道在最坏的情况下，BST 的查找性能等同于链表。我们希望能够找到一种二分查找树，并能保证无论如何构造它，该树的运行时间都是对数级别的</p>
+<p>理想情况下，我们希望一颗含有 N 个结点的树的树高为 lgN。但在动态插入中保证树的完美平衡代价太高，我们可以适当地放宽要求，于是 2-3 查找树应运而生</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>一棵 2-3 查找树或为一颗空树，或由以下结点组成</p>
+<ul>
+<li>2- 结点，含有一个键（及其对应的值）和两条链接，左链接指向的 2-3 树中的键都小于该结点，右链接指向的 2-3 树中的键都大于该结点</li>
+<li>3- 结点，含有两个键（及其对应的值）和三条链接，左链接指向的 2-3 树中的键都小于该结点，中链接指向的 2-3 树中的键都位于该结点的两个键之间，右链接指向的 2-3 树中的键都大于该结点<img src="/2018/05/11/树-二-：2-3-查找树/1.jpg">
+</li>
+</ul>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>判断一个键是否在树中的基本流程：</p>
+<ul>
+<li>将要查找的键与根结点中的键比较，若它与其中任意一个相等，查找命中</li>
+<li>若小于根结点中的最小键，则在左子树中（递归地）进行查找</li>
+<li>若大于根结点中的最大键，则在右子树中（递归地）进行查找</li>
+<li>若位于根结点中的最小键和最大键之间，则在中子树中（递归地）进行查找<img src="/2018/05/11/树-二-：2-3-查找树/2.jpg">
+</li>
+</ul>
+<h3 id="向-2-结点中插入新键"><a href="#向-2-结点中插入新键" class="headerlink" title="向 2- 结点中插入新键"></a>向 2- 结点中插入新键</h3><p>可以和 BST 一样先进行一次未命中的查找，然后把新结点挂在树的底部，但是这样会破坏树的完美平衡性</p>
+<p>故如果未命中的查找结束于一个 2- 结点，则只需要将这个 2- 结点转换为一个 3- 结点，然后将插入的键保存在其中即可<br><img src="/2018/05/11/树-二-：2-3-查找树/3.jpg"></p>
+<h3 id="向一颗只含有一个-3-结点的树中插入新键"><a href="#向一颗只含有一个-3-结点的树中插入新键" class="headerlink" title="向一颗只含有一个 3- 结点的树中插入新键"></a>向一颗只含有一个 3- 结点的树中插入新键</h3><p>由于这棵树中只含有一个 3- 结点，唯一的结点中已经没有可插入新键的空间了。为了将新键插入，可以将 3- 结点暂时地转换为 4- 结点，则该 4- 结点含有 3 个键和 4 个链接。</p>
+<p>很容易地可以将 4- 结点转换为由 3 个 2- 结点组成的 2-3 树，其中一个根结点含有中键，一个结点含有 3 个键中的最小者（与根结点的左链接相连），一个结点含有 3 个键中的最大者（与根结点的右链接相连）</p>
+<p>这棵树既是一颗含有 3 个结点的二叉查找树，又是一棵完美平衡的 2-3 树</p>
+<p>插入前树的高度为 0， 插入后树的高度为 1。这种情况说明了 2-3 树的生长过程<br><img src="/2018/05/11/树-二-：2-3-查找树/4.jpg"></p>
+<h3 id="向一个父结点为-2-结点的-3-结点中插入新键"><a href="#向一个父结点为-2-结点的-3-结点中插入新键" class="headerlink" title="向一个父结点为 2- 结点的 3- 结点中插入新键"></a>向一个父结点为 2- 结点的 3- 结点中插入新键</h3><p>同刚才的情况一致，先构建一个临时的 4- 结点，然后将其分解</p>
+<p>但此时我们不会为中键创建一个新的结点，而是将其移动到原来的父节点中，生成一个 3- 结点</p>
+<p>而这个临时 4- 结点中最小的键转换为新的 3- 根结点的中子树，而 4- 结点中最大的键仍旧为根结点的右子树<br><img src="/2018/05/11/树-二-：2-3-查找树/5.jpg"></p>
+<h3 id="向一个父结点为-3-结点的-3-结点中插入新键"><a href="#向一个父结点为-3-结点的-3-结点中插入新键" class="headerlink" title="向一个父结点为 3- 结点的 3- 结点中插入新键"></a>向一个父结点为 3- 结点的 3- 结点中插入新键</h3><p>依旧是构造一个临时的 4- 结点并分解它，将它的中键插入它的父结点中。此时 4- 结点由原来的插入结点上浮至其父结点</p>
+<p>若父结点的父结点为 2- 结点，则问题转换为向一个父结点为 2- 结点的 3- 结点中插入新键</p>
+<p>若父结点的父结点也为 3- 结点，则父节点的中键也插入至其父结点中，造成的结果就是这个临时的 4- 结点一层层地往上浮，直至碰见一个 2- 父结点或 3- 根结点<br><img src="/2018/05/11/树-二-：2-3-查找树/6.jpg"></p>
+<h3 id="分解根结点"><a href="#分解根结点" class="headerlink" title="分解根结点"></a>分解根结点</h3><p>分解根结点的情况和向一颗只含有一个 3- 结点的树中插入新键的情况是类似的，根结点都是变成了一个临时的 4- 结点。于是将临时的 4- 根结点分解成 3 个 2- 结点，使树的高度加一即可<br><img src="/2018/05/11/树-二-：2-3-查找树/7.jpg"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>和标准的二叉查找树由上向下生长不同，2-3 树的生长是由下向上的</p>
+<p>在一棵大小为 N 的 2-3 树中，查找和插入操作访问的结点必然不超过 lgN 个</p>
+<p>2-3 树具有很好的平衡性，即使按照升序插入新结点，树的高度也不会超过 lgN<br><img src="/2018/05/11/树-二-：2-3-查找树/8.jpg"></p>
+<h2 id="红黑二叉查找树"><a href="#红黑二叉查找树" class="headerlink" title="红黑二叉查找树"></a>红黑二叉查找树</h2><p>红黑二叉查找树用简单的数据结构来表达并实现了上述的 2-3 查找树</p>
+<h3 id="替换-3-结点"><a href="#替换-3-结点" class="headerlink" title="替换 3- 结点"></a>替换 3- 结点</h3><p>红黑二叉查找树背后的基本思想是用标准的二叉查找树（完全由 2- 结点组成）和一些额外的信息（替换 3- 结点）来表示 2-3 树</p>
+<p>红黑二叉查找树中的链接分为两种类型：</p>
+<ul>
+<li><strong>红链接</strong>：将两个 2- 结点链接起来构成一个 3- 结点</li>
+<li><strong>黑链接</strong>：2-3 树中的普通链接<br>准确地说，2-3 树中的 3- 结点相当于 红黑二叉查找树中由一条左斜的红色链接相连的两个 2- 结点<img src="/2018/05/11/树-二-：2-3-查找树/9.jpg">
+</li>
+</ul>
+<p>对于任意的 2-3 树，只要对结点进行转换，都可以派生出一棵对应的二叉查找树。我们将用这种方式表示 2-3 树 的二叉查找树称为红黑二叉查找树（以下简称红黑树）</p>
+<h3 id="一种等价的定义"><a href="#一种等价的定义" class="headerlink" title="一种等价的定义"></a>一种等价的定义</h3><p>红黑树的另一种定义是含有红黑链接并满足下列条件的二叉查找树：</p>
+<ul>
+<li>红链接均为左链接</li>
+<li>没有任何一个结点同时和两条红链接相连</li>
+<li>该树是黑色完美平衡的，即任意空链接到根结点的路径上的黑链接数量相等<br>满足这样定义的红黑树和相应的 2-3 树是一一对应的</li>
+</ul>
+<p>如果将红黑树的红链接画平，则所有的空链接到根结点的距离都是相同的<br><img src="/2018/05/11/树-二-：2-3-查找树/10.jpg"><br>如果我们将由红链接相连的结点合并，得到的就是一棵 2-3 树<br><img src="/2018/05/11/树-二-：2-3-查找树/11.jpg"></p>
+<p>因此，红黑树结合了二叉查找树中简洁高效的查找方法和 2-3 树中高效的平衡插入算法</p>
+<h3 id="颜色表示"><a href="#颜色表示" class="headerlink" title="颜色表示"></a>颜色表示</h3><p>在表示结点的 Node 数据类型中加入颜色信息（boolean color），若指向该结点的链接是红色，则 color 为 true<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">private static final boolean RED = true;</span><br><span class="line"></span><br><span class="line">private static final boolean BLACK = false;</span><br><span class="line"></span><br><span class="line">private class Node &#123;</span><br><span class="line"></span><br><span class="line">	Key key;</span><br><span class="line">	</span><br><span class="line">	Value val;</span><br><span class="line">	</span><br><span class="line">	Node left, right;</span><br><span class="line">	</span><br><span class="line">	int n;</span><br><span class="line">	</span><br><span class="line">	boolean color;</span><br><span class="line">	</span><br><span class="line">	Node(Key key, Value val, int n, boolean color) &#123;</span><br><span class="line">	</span><br><span class="line">		this.key = key;</span><br><span class="line">		</span><br><span class="line">		this.val = val;</span><br><span class="line">		</span><br><span class="line">		this.n = n;</span><br><span class="line">		</span><br><span class="line">		this.color = color;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private boolean isRed(Node x) &#123;</span><br><span class="line"></span><br><span class="line">	if (x == null) return false;</span><br><span class="line">	</span><br><span class="line">	return x.color == RED;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>在对红黑树进行操作时可能会出现红色的右链接或两条连续的红链接，这时候就需要对红黑树进行旋转操作来修复树，旋转操作会改变红链接的指向</p>
+<p>将一条红色的右链接转换为左链接称为左旋转<br><img src="/2018/05/11/树-二-：2-3-查找树/12.jpg"><br>右旋转类似<br><img src="/2018/05/11/树-二-：2-3-查找树/13.jpg"></p>
+<p>旋转操作可以保持红黑树的两个重要性质：<strong>有序性</strong>和<strong>完美平衡性</strong></p>
+<h3 id="向单个-2-结点插入新键"><a href="#向单个-2-结点插入新键" class="headerlink" title="向单个 2- 结点插入新键"></a>向单个 2- 结点插入新键</h3><p>若新键小于老键，只需要新增一个红色的结点，新的红黑树和单个 3- 结点完全等价。若新键大于老键，则新增的红色结点将会产生一条红色的右链接，只需要进行一次左旋转即可<br><img src="/2018/05/11/树-二-：2-3-查找树/14.jpg"></p>
+<h3 id="向树底部的-2-结点插入新键"><a href="#向树底部的-2-结点插入新键" class="headerlink" title="向树底部的 2- 结点插入新键"></a>向树底部的 2- 结点插入新键</h3><p>用和二叉查找树相同的方式向一棵红黑树中插入一个新键会在树的底部新增一个结点，但总是用红链接将新结点与它的父结点相连</p>
+<p>如果它的父结点是一个 2- 结点（即黑结点），那么刚讨论的向单个 2- 结点插入新键的方法仍然适用<br><img src="/2018/05/11/树-二-：2-3-查找树/15.jpg"></p>
+<h3 id="向一棵双键树（即一个-3-结点）中插入新键"><a href="#向一棵双键树（即一个-3-结点）中插入新键" class="headerlink" title="向一棵双键树（即一个 3- 结点）中插入新键"></a>向一棵双键树（即一个 3- 结点）中插入新键</h3><p>此情况又可分为三种子情况：新键小于树中的两个键、在两者之间、大于树中的两个键，每个情况中都会产生一个同时连接到两条红链接的结点</p>
+<ul>
+<li>最简单的是新键大于树中的两个键，因此它被连接到 3- 结点的右链接。此时树是平衡的，根结点为中间大小的键。如果将两条链接的颜色都由红变黑，那么我们就得到了一棵由三个结点组成、高为 2 的平衡树。其他两种情况最终也会转换为这种情况</li>
+<li>若新键小于树中的两个键，则会产生两条连续的红色左链接。此时我们次要将上层的红链接右旋转即可得到第一种情况</li>
+<li>若新键位于树中两键之间，则会产生一条上层红色左链接和一条下层红色右链接，则将下层红链接左旋转即可转换为两条连续的红色左链接的情况</li>
+</ul>
+<p>总的来说，我们通过 0、1 和 2 次旋转以及颜色的变化得到了期望的结果<br><img src="/2018/05/11/树-二-：2-3-查找树/16.jpg"><br>第一种情况下两条链接的颜色由红变黑，而中键结点的颜色需要设为红<br><img src="/2018/05/11/树-二-：2-3-查找树/17.jpg"></p>
+<h3 id="根结点总是黑色"><a href="#根结点总是黑色" class="headerlink" title="根结点总是黑色"></a>根结点总是黑色</h3><p>刚讨论过颜色转换会使根结点遍为红色。严格地说，红色的根结点说明根结点是 3- 结点的一部分，但实际情况并不是这样。因此我们在每次插入后都会将根结点设为黑色</p>
+<p>注意，每当根结点由红变黑时数的黑链接高度就会加一</p>
+<h3 id="向树底部的-3-结点插入新键"><a href="#向树底部的-3-结点插入新键" class="headerlink" title="向树底部的 3- 结点插入新键"></a>向树底部的 3- 结点插入新键</h3><p>此种情况同向一棵双键树种插入新键的情况类似，中键结点的颜色变红，相当于将它送入了父结点。这意味者在父结点种继续插入一个新键，等价于 2-3 树中将中键结点一层层地往上浮<br><img src="/2018/05/11/树-二-：2-3-查找树/18.jpg"><br>红黑树中的红链接向上传递情况如下<br><img src="/2018/05/11/树-二-：2-3-查找树/19.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/11/树-一-：二叉查找树/" rel="next" title="树 (一)：二叉查找树">
+                <i class="fa fa-chevron-left"></i> 树 (一)：二叉查找树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/22/Java-TreeMap/" rel="prev" title="Java TreeMap">
+                Java TreeMap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Li Qingyu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-查找树"><span class="nav-number">2.</span> <span class="nav-text">2-3 查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找"><span class="nav-number">2.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向-2-结点中插入新键"><span class="nav-number">2.3.</span> <span class="nav-text">向 2- 结点中插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向一颗只含有一个-3-结点的树中插入新键"><span class="nav-number">2.4.</span> <span class="nav-text">向一颗只含有一个 3- 结点的树中插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向一个父结点为-2-结点的-3-结点中插入新键"><span class="nav-number">2.5.</span> <span class="nav-text">向一个父结点为 2- 结点的 3- 结点中插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向一个父结点为-3-结点的-3-结点中插入新键"><span class="nav-number">2.6.</span> <span class="nav-text">向一个父结点为 3- 结点的 3- 结点中插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分解根结点"><span class="nav-number">2.7.</span> <span class="nav-text">分解根结点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.8.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑二叉查找树"><span class="nav-number">3.</span> <span class="nav-text">红黑二叉查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#替换-3-结点"><span class="nav-number">3.1.</span> <span class="nav-text">替换 3- 结点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一种等价的定义"><span class="nav-number">3.2.</span> <span class="nav-text">一种等价的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#颜色表示"><span class="nav-number">3.3.</span> <span class="nav-text">颜色表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转"><span class="nav-number">3.4.</span> <span class="nav-text">旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向单个-2-结点插入新键"><span class="nav-number">3.5.</span> <span class="nav-text">向单个 2- 结点插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向树底部的-2-结点插入新键"><span class="nav-number">3.6.</span> <span class="nav-text">向树底部的 2- 结点插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向一棵双键树（即一个-3-结点）中插入新键"><span class="nav-number">3.7.</span> <span class="nav-text">向一棵双键树（即一个 3- 结点）中插入新键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根结点总是黑色"><span class="nav-number">3.8.</span> <span class="nav-text">根结点总是黑色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向树底部的-3-结点插入新键"><span class="nav-number">3.9.</span> <span class="nav-text">向树底部的 3- 结点插入新键</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Qingyu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
