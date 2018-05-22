@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：   节点是红色或黑色     根节点是黑色    每个叶节点（这里的叶节点是指 NULL 节点，在《算法导">
+<meta name="description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：  1.节点是红色或黑色  2.根节点是黑色 3.每个叶节点（这里的叶节点是指 NULL 节点，在《算法导论">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Map (四)：TreeMap 解析">
 <meta property="og:url" content="http://yoursite.com/2018/05/22/Java-TreeMap/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
-<meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：   节点是红色或黑色     根节点是黑色    每个叶节点（这里的叶节点是指 NULL 节点，在《算法导">
+<meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：  1.节点是红色或黑色  2.根节点是黑色 3.每个叶节点（这里的叶节点是指 NULL 节点，在《算法导论">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/2.jpg">
@@ -98,10 +98,10 @@
 <meta property="og:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/10.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/11.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/12.jpg">
-<meta property="og:updated_time" content="2018-05-22T05:55:49.188Z">
+<meta property="og:updated_time" content="2018-05-22T07:41:30.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Map (四)：TreeMap 解析">
-<meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：   节点是红色或黑色     根节点是黑色    每个叶节点（这里的叶节点是指 NULL 节点，在《算法导">
+<meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍 红黑树之删除节点红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：  1.节点是红色或黑色  2.根节点是黑色 3.每个叶节点（这里的叶节点是指 NULL 节点，在《算法导论">
 <meta name="twitter:image" content="http://yoursite.com/2018/05/22/Java-TreeMap/1.jpg">
 
 
@@ -371,75 +371,33 @@
 <p>TreeMap 的底层数据结构为红黑树，因此要想理解 TreeMap，必须先理解红黑树。本文重点在于 TreeMap 的解析，故对红黑树的内容只作简单介绍</p>
 <h2 id="红黑树之删除节点"><a href="#红黑树之删除节点" class="headerlink" title="红黑树之删除节点"></a>红黑树之删除节点</h2><p>红黑树时每个节点都带有颜色属性的二叉查找树，其特性有：</p>
 <ul>
-<li><ol>
-<li>节点是红色或黑色 </li>
-</ol>
-</li>
-<li><ol start="2">
-<li>根节点是黑色</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>每个叶节点（这里的叶节点是指 NULL 节点，在《算法导论》中这个节点叫哨兵节点，除了颜色属性外，其他属性值都为任意。为了和以前的叶子节点做区分，原来的叶子节点还叫叶子节点，这个节点就叫它 NULL 节点）是黑色的</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>从每个叶子节点到根节点的所有路径上不能有两个连续的红色节点</li>
-</ol>
-</li>
-<li><ol start="5">
-<li>从任一节点到其每个叶子节点的所有路径都包含相同数目的黑色节点</li>
-</ol>
-</li>
+<li>1.节点是红色或黑色 </li>
+<li>2.根节点是黑色</li>
+<li>3.每个叶节点（这里的叶节点是指 NULL 节点，在《算法导论》中这个节点叫哨兵节点，除了颜色属性外，其他属性值都为任意。为了和以前的叶子节点做区分，原来的叶子节点还叫叶子节点，这个节点就叫它 NULL 节点）是黑色的</li>
+<li>4.从每个叶子节点到根节点的所有路径上不能有两个连续的红色节点</li>
+<li>5.从任一节点到其每个叶子节点的所有路径都包含相同数目的黑色节点</li>
 </ul>
 <h3 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h3><p>红黑树删除节点的基本思路为找到将被删除节点的后继节点，将后继节点的属性赋给将被删除的节点，然后删除后继节点，对节点的删除不会产生颜色碰撞的情况</p>
 <p>而后继节点为：</p>
 <ul>
-<li><ol>
-<li>单个的叶子节点（不是指 NULL 节点）</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>只有单子树的节点（即只有左子树或右子树）</li>
-</ol>
-</li>
+<li>1.单个的叶子节点（不是指 NULL 节点）</li>
+<li>2.只有单子树的节点（即只有左子树或右子树）</li>
 </ul>
 <p>若后继节点为红色，则删除的步骤和普通的二叉查找树的删除步骤基本类似，因为对红色节点的删除不会影响整棵红黑树的黑高。若后继节点为黑色，则情况就要复杂的多，但基本思路还是在于如何将黑色节点删除后部分子树黑高减一的情况消除</p>
 <h3 id="具体情况"><a href="#具体情况" class="headerlink" title="具体情况"></a>具体情况</h3><p>对于一棵普通的二叉查找树，删除节点的情况可分为 3 种：</p>
 <ul>
-<li><ol>
-<li>叶子节点</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>单子树节点</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>双子树节点<br>我们知道对于一棵普通二叉树的情况 3 来说，要删除既有左子树又有右子树的节点，我们首先要找到该节点的直接后继节点，然后用后继节点替换该节点，最后按 1 或 2 中的方法删除后继节点即可。即情况 3 可以转换成情况 1 或 2</li>
-</ol>
-</li>
+<li>1.叶子节点</li>
+<li>2.单子树节点</li>
+<li>3.双子树节点<br>我们知道对于一棵普通二叉树的情况 3 来说，要删除既有左子树又有右子树的节点，我们首先要找到该节点的直接后继节点，然后用后继节点替换该节点，最后按 1 或 2 中的方法删除后继节点即可。即情况 3 可以转换成情况 1 或 2</li>
 </ul>
 <p>同样，对于红黑树来说，删除节点的实际情况也只有两种。对于情况 2，即待删除的节点有单子树，很多组合在红黑树中是不存在的</p>
 <p>情况 2 中不存在的情况有（其中 D 表示要删除的节点，DL 和 DR 分别表示左子树和右子树）<br><img src="/2018/05/22/Java-TreeMap/1.jpg"></p>
-<p><strong>删除红色节点</strong></p>
-<ol>
-<li>删除红色的叶子节点（D表示待删除的节点，P表示其父亲节点）<img src="/2018/05/22/Java-TreeMap/2.jpg">
-上述两种情况处理方式一致，直接删除 D 节点即可</li>
-<li>删除的红色节点有单子树<br>之前已经分析过，红黑树中根本不存在这种情况</li>
-</ol>
-<p><strong>删除黑色节点</strong></p>
-<ol>
-<li>删除的黑色节点有单子树<img src="/2018/05/22/Java-TreeMap/3.jpg">
-上述两种情况处理方式一致，即用 D 的孩子（左或右）替换 D，并将 D 孩子的颜色改为黑色即可（因为路径上少了一个黑节点，所以将红节点变成黑节点以保持红黑树的性质）</li>
-<li>删除黑色的叶子节点（此情况最为复杂，因为还要考虑其兄弟节点的颜色情况）<br>2.1. 待删除节点 D 的兄弟节点 S 为红色<img src="/2018/05/22/Java-TreeMap/4.jpg">
-将父节点和兄弟节点的颜色互换，然后对 P 节点进行左旋转，结果如下<img src="/2018/05/22/Java-TreeMap/5.jpg">
-这时，D 的兄弟节点为黑色，转化为下面将要讨论的情况</li>
-</ol>
-<p>2.2. 兄弟节点为黑色，且远侄子节点为红色<br><img src="/2018/05/22/Java-TreeMap/6.jpg"><br>没有上色的节点代表红色黑色均可，注意若 SL 为黑色，则其必为 NULL 节点<br>此时，若我们直接删除 D 节点，则经过 D 的子节点的路径的黑高将会减一。我们发现 S 节点的孩子中有红色节点，如果可以将该红色节点移动到左侧并将颜色改为黑色，则满足要求。这也是为什么 P 节点的颜色无关，因为调整过程只在 P 整棵子树的内部进行<br><img src="/2018/05/22/Java-TreeMap/7.jpg"><br>调整过程为，将 P 和 S 的颜色互换，然后对 P 进行左旋转，最后将 SR 改为黑色，删除 D 即可</p>
-<p>2.3. 兄弟节点为黑色，远侄子节点为黑色，近侄子节点为红色<br><img src="/2018/05/22/Java-TreeMap/8.jpg"><br>调整过程为对 S 进行右旋转，并将 S 和 SL 的颜色互换，这时情况转为 2.2<br><img src="/2018/05/22/Java-TreeMap/9.jpg"></p>
-<p>2.4. 父节点为红色，兄弟节点和兄弟节点的两个孩子（只能是 NULL 节点）都为黑色<br><img src="/2018/05/22/Java-TreeMap/10.jpg"><br>如果删除 D，那经过 P 到 D 的子节点 NULL 的路径上黑高减一，这个时候我们可以把 P 变成黑色，这样删除 D 后经过 D 子节点（NULL 节点）路径上的黑高就和原来一样了。但是这样会导致经过 S 的子节点（NULL 节点）的路径上的黑高加一，所以这个时候可以再将 S 节点变成红色，这样路径上的黑色节点数就和原来一样<br><img src="/2018/05/22/Java-TreeMap/11.jpg"><br>调整过程为，将 P 改为黑色，将 S 改为红色，删除 D 即可</p>
-<p>2.5. 父节点、兄弟节点和兄弟节点的两个孩子（只能是 NULL 节点）都为黑色<br><img src="/2018/05/22/Java-TreeMap/12.jpg"><br>调整过程为，将兄弟节点 S 的颜色改成红色，这样删除 D 后 P 的左右两支的黑节点数就相等了，但是经过 P 的路径上的黑色节点数会少 1，这个时候，我们再以 P 为起始点，继续根据情况进行平衡操作（这句话的意思就是把 P 当成 D（只是不要再删除 P 了），再看是那种情况，再进行对应的调整，这样一直向上，直到新的起始点为根节点</p>
+<p><strong>删除红色节点</strong><br>1.删除红色的叶子节点（D表示待删除的节点，P表示其父亲节点）<br><img src="/2018/05/22/Java-TreeMap/2.jpg"><br>上述两种情况处理方式一致，直接删除 D 节点即可<br>2.删除的红色节点有单子树<br>之前已经分析过，红黑树中根本不存在这种情况</p>
+<p><strong>删除黑色节点</strong><br>1.删除的黑色节点有单子树<br><img src="/2018/05/22/Java-TreeMap/3.jpg"><br>上述两种情况处理方式一致，即用 D 的孩子（左或右）替换 D，并将 D 孩子的颜色改为黑色即可（因为路径上少了一个黑节点，所以将红节点变成黑节点以保持红黑树的性质）<br>2.删除黑色的叶子节点（此情况最为复杂，因为还要考虑其兄弟节点的颜色情况）<br>2.1.待删除节点 D 的兄弟节点 S 为红色<br><img src="/2018/05/22/Java-TreeMap/4.jpg"><br>将父节点和兄弟节点的颜色互换，然后对 P 节点进行左旋转，结果如下<br><img src="/2018/05/22/Java-TreeMap/5.jpg"><br>这时，D 的兄弟节点为黑色，转化为下面将要讨论的情况</p>
+<p>2.2.兄弟节点为黑色，且远侄子节点为红色<br><img src="/2018/05/22/Java-TreeMap/6.jpg"><br>没有上色的节点代表红色黑色均可，注意若 SL 为黑色，则其必为 NULL 节点<br>此时，若我们直接删除 D 节点，则经过 D 的子节点的路径的黑高将会减一。我们发现 S 节点的孩子中有红色节点，如果可以将该红色节点移动到左侧并将颜色改为黑色，则满足要求。这也是为什么 P 节点的颜色无关，因为调整过程只在 P 整棵子树的内部进行<br><img src="/2018/05/22/Java-TreeMap/7.jpg"><br>调整过程为，将 P 和 S 的颜色互换，然后对 P 进行左旋转，最后将 SR 改为黑色，删除 D 即可</p>
+<p>2.3.兄弟节点为黑色，远侄子节点为黑色，近侄子节点为红色<br><img src="/2018/05/22/Java-TreeMap/8.jpg"><br>调整过程为对 S 进行右旋转，并将 S 和 SL 的颜色互换，这时情况转为 2.2<br><img src="/2018/05/22/Java-TreeMap/9.jpg"></p>
+<p>2.4.父节点为红色，兄弟节点和兄弟节点的两个孩子（只能是 NULL 节点）都为黑色<br><img src="/2018/05/22/Java-TreeMap/10.jpg"><br>如果删除 D，那经过 P 到 D 的子节点 NULL 的路径上黑高减一，这个时候我们可以把 P 变成黑色，这样删除 D 后经过 D 子节点（NULL 节点）路径上的黑高就和原来一样了。但是这样会导致经过 S 的子节点（NULL 节点）的路径上的黑高加一，所以这个时候可以再将 S 节点变成红色，这样路径上的黑色节点数就和原来一样<br><img src="/2018/05/22/Java-TreeMap/11.jpg"><br>调整过程为，将 P 改为黑色，将 S 改为红色，删除 D 即可</p>
+<p>2.5.父节点、兄弟节点和兄弟节点的两个孩子（只能是 NULL 节点）都为黑色<br><img src="/2018/05/22/Java-TreeMap/12.jpg"><br>调整过程为，将兄弟节点 S 的颜色改成红色，这样删除 D 后 P 的左右两支的黑节点数就相等了，但是经过 P 的路径上的黑色节点数会少 1，这个时候，我们再以 P 为起始点，继续根据情况进行平衡操作（这句话的意思就是把 P 当成 D（只是不要再删除 P 了），再看是那种情况，再进行对应的调整，这样一直向上，直到新的起始点为根节点</p>
 <h2 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class TreeMap&lt;K,V&gt;</span><br><span class="line">    extends AbstractMap&lt;K,V&gt;</span><br><span class="line">    implements NavigableMap&lt;K,V&gt;, Cloneable, java.io.Serializable</span><br></pre></td></tr></table></figure>
 <p>TreeMap 是一个有序的 key-value 集合，它是通过红黑树实现的<br>TreeMap 继承自 AbstractMap，实现了 NavigableMap 接口，意味着它支持一系列的导航方法。比如返回有序的 key 集合</p>
 <p>TreeMap 的核心方法有两个，即 put() 方法和 deleteEntry() 方法</p>
@@ -482,6 +440,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/22/Java-知识点（持续更新中）/" rel="prev" title="Java 知识点（持续更新中）">
+                Java 知识点（持续更新中） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -558,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
