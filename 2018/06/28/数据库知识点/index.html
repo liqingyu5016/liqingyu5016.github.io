@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
+<meta name="description" content="写在前面 文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  文中采用的数据库为 MySQL   MySQL 索引MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等 索引的本质官方定义为：索引（index）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java Map 概述">
-<meta property="og:url" content="http://yoursite.com/2018/05/08/Java-Map-解析/index.html">
+<meta property="og:title" content="数据库知识点">
+<meta property="og:url" content="http://yoursite.com/2018/06/28/数据库知识点/index.html">
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
-<meta property="og:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
+<meta property="og:description" content="写在前面 文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  文中采用的数据库为 MySQL   MySQL 索引MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等 索引的本质官方定义为：索引（index）">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-11T02:01:02.966Z">
+<meta property="og:updated_time" content="2018-06-28T03:11:23.792Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java Map 概述">
-<meta name="twitter:description" content="写在前面 由于个人水平有限，故部分内容可能会出现错误，还请包涵  思维导图 Map 接口Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&amp;lt;K, V&amp;gt;123456789101112131415161718192021222324252627282930313233343536// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图">
+<meta name="twitter:title" content="数据库知识点">
+<meta name="twitter:description" content="写在前面 文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  文中采用的数据库为 MySQL   MySQL 索引MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等 索引的本质官方定义为：索引（index）">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/08/Java-Map-解析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/28/数据库知识点/"/>
 
 
 
 
 
-  <title>Java Map 概述 | Liqingyu's Blog</title>
+  <title>数据库知识点 | Liqingyu's Blog</title>
   
 
 
@@ -252,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/Java-Map-解析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/数据库知识点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Li Qingyu">
@@ -269,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java Map 概述</h1>
+          <h1 class="post-title" itemprop="name headline">数据库知识点</h1>
         
 
         <div class="post-meta">
@@ -281,8 +281,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-08T16:50:02+08:00">
-                2018-05-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T10:07:05+08:00">
+                2018-06-28
               </time>
             
 
@@ -304,8 +304,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-SE/" itemprop="url" rel="index">
-                    <span itemprop="name">Java SE</span>
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
                   </a>
                 </span>
 
@@ -321,7 +321,7 @@
 
           
           
-             <span id="/2018/05/08/Java-Map-解析/" class="leancloud_visitors" data-flag-title="Java Map 概述">
+             <span id="/2018/06/28/数据库知识点/" class="leancloud_visitors" data-flag-title="数据库知识点">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -352,19 +352,41 @@
       
 
       
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><ul>
-<li>由于个人水平有限，故部分内容可能会出现错误，还请包涵</li>
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><ul>
+<li><p>文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵</p>
+</li>
+<li><p>文中采用的数据库为 MySQL</p>
+</li>
 </ul>
-<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2>
-<h2 id="Map-接口"><a href="#Map-接口" class="headerlink" title="Map 接口"></a>Map 接口</h2><p>Map 集合类用于存储键-值对，在 Map 接口中定义了一个内部接口 Entry&lt;K, V&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// Map.entrySet() 方法返回 Map 中所包含映射的 Set 视图</span><br><span class="line">// 即此接口实现类对象组成的 Set 对象</span><br><span class="line">interface Entry&lt;K,V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    K getKey();</span><br><span class="line">    </span><br><span class="line">    V getValue();</span><br><span class="line"></span><br><span class="line">    V setValue(V value);</span><br><span class="line"></span><br><span class="line">    boolean equals(Object o);</span><br><span class="line"></span><br><span class="line">    int hashCode();</span><br><span class="line"></span><br><span class="line">    public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByKey() &#123;</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; c1.getKey().compareTo(c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V extends Comparable&lt;? super V&gt;&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByValue() &#123;</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; c1.getValue().compareTo(c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByKey(Comparator&lt;? super K&gt; cmp) &#123;</span><br><span class="line">        Objects.requireNonNull(cmp);</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; cmp.compare(c1.getKey(), c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByValue(Comparator&lt;? super V&gt; cmp) &#123;</span><br><span class="line">        Objects.requireNonNull(cmp);</span><br><span class="line">        return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">            (c1, c2) -&gt; cmp.compare(c1.getValue(), c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Map 无法直接用 Iterator 进行遍历，而是需要先获取 Map 的视图，有三种方式，分别是：</p>
+<h1 id="MySQL-索引"><a href="#MySQL-索引" class="headerlink" title="MySQL 索引"></a>MySQL 索引</h1><p>MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等</p>
+<h2 id="索引的本质"><a href="#索引的本质" class="headerlink" title="索引的本质"></a>索引的本质</h2><p>官方定义为：索引（index）是帮助 MySQL 高效获取数据的数据结构。即索引的本质就是一种数据结构</p>
+<h1 id="为什么使用-B-tree-作为-MySQL-索引的数据结构"><a href="#为什么使用-B-tree-作为-MySQL-索引的数据结构" class="headerlink" title="为什么使用 B+tree 作为 MySQL 索引的数据结构"></a>为什么使用 B+tree 作为 MySQL 索引的数据结构</h1><p>一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往以索引文件的形式存储在磁盘上。因此，索引查找过程中就要产生磁盘 I/O 消耗，相对于内存存取，I/O 存取的消耗要高几个数量级，所以评价一个数据结构作为索引的优劣最重要的指标就是在查找过程中磁盘 I/O 操作次数的渐进复杂度。换句话说，索引的结构组织要尽量减少查找过程中磁盘 I/O 的存取次数。</p>
+<h2 id="局部性原理和磁盘预读"><a href="#局部性原理和磁盘预读" class="headerlink" title="局部性原理和磁盘预读"></a>局部性原理和磁盘预读</h2><p>由于存储介质的特性，磁盘本身存取就比主存慢很多，再加上机械运动耗费，磁盘的存取速度往往是主存的几百分分之一，因此为了提高效率，要尽量减少磁盘 I/O。为了达到这个目的，磁盘往往不是严格按需读取，而是每次都会预读，即使只需要一个字节，磁盘也会从这个位置开始，顺序向后读取一定长度的数据放入内存。这样做的理论依据是计算机科学中著名的<strong>局部性原理</strong>：</p>
 <ul>
-<li>entrySet()：返回 Map 中所包含映射的 Set 视图</li>
-<li>keySet()：返回 Map 中所包含 key 的 Set 视图（因为 key 不能重复，故使用 Set 视图）</li>
-<li>values()：返回 Map 中所包含 value 的 Collection 视图</li>
+<li>当一个数据被用到时，其附近的数据也通常会马上被使用。</li>
+<li>程序运行期间所需要的数据通常比较集中。</li>
 </ul>
-<h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>具体见 <a href="https://liqingyu5016.github.io/2018/05/10/Java-Map-%E4%B9%8B-HashMap-%E5%8F%8A-ConcurrentHashMap-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">HashMap 及 ConcurrentHashMap 解析</a></p>
-<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>具体见 <a href="https://liqingyu5016.github.io/2018/05/10/Java-Map-%E4%B9%8B-LinkedHashMap-%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">LinkedHashMap 解析</a></p>
+<p>由于磁盘顺序读取的效率很高（不需要寻道时间，只需很少的旋转时间），因此对于具有局部性的程序来说，预读可以提高 I/O 效率。</p>
+<p>预读的长度一般为页（page）的整倍数。页是计算机管理存储器的逻辑块，硬件及操作系统往往将主存和磁盘存储区分割为连续的大小相等的块，每个存储块称为一页（在许多操作系统中，页得大小通常为 4k），主存和磁盘以页为单位交换数据。当程序要读取的数据不在主存中时，会触发一个缺页异常，此时系统会向磁盘发出读盘信号，磁盘会找到数据的起始位置并向后连续读取一页或几页载入内存中，然后异常返回，程序继续运行。</p>
+<h2 id="B-树数据结构"><a href="#B-树数据结构" class="headerlink" title="B+ 树数据结构"></a>B+ 树数据结构</h2><p>一个 m 阶 B+ 树具有如下几个特征</p>
+<ul>
+<li>有 k 个子树的中间节点包含有 k 个元素（B-树中是 k-1 个），每个元素不保存数据，只用来索引，所有数据都保存在叶子节点</li>
+<li>所有的叶子节点中包含了全部元素的信息，及指向含这些元素记录的指针，且叶子节点本身以关键字的大小从小到大顺序连接</li>
+<li>所有的中间节点元素都同时存在于子节点中，在子节点元素中是最大（或最小元素），故根节点元素中最小值（最大值）即为整颗树的最小值（最大值）<h2 id="B-树索引的性能分析"><a href="#B-树索引的性能分析" class="headerlink" title="B-/+ 树索引的性能分析"></a>B-/+ 树索引的性能分析</h2>B- 树和 B+ 树最重要的一个区别就是 B+ 树只有叶节点存放数据，其余节点用来索引，而 B- 树是每个索引节点都会有 Data 域。这就决定了 B+ 树更适合用来存储外部数据，也就是所谓的磁盘数据。从 Mysql（Inoodb）的角度来看，B+ 树是用来充当索引的，一般来说索引非常大，尤其是关系性数据库这种数据量大的索引能达到亿级别，所以为了减少内存的占用，索引也会被存储在磁盘上</li>
+</ul>
+<p>B-树（B 类树）的特定就是每层节点数目非常多，层数很少，目的就是为了就少磁盘 I/O 次数。当查询数据的时候，最好的情况就是很快找到目标索引，然后读取数据，使用 B+ 树就能很好的完成这个目的，而 B-树的每个节点都有 data 域（指针），这无疑增大了节点大小，说白了增加了磁盘 I/O 次数（磁盘 I/O 一次读出的数据量大小是固定的，单个数据变大，每次读出的就少，I/O 次数增多），而 B+ 树除了叶子节点其它节点并不存储数据，节点小，磁盘 I/O 次数就少。这是优点之一</p>
+<p>另一个优点是 B+ 树所有的 Data 域在叶子节点，一般来说都会进行一个优化，就是将所有的叶子节点用指针串起来。这样遍历叶子节点就能获得全部数据，这样就能进行区间访问。<br>(数据库索引采用 B+ 树的主要原因是 B 树在提高了磁盘 I/O 性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树 应运而生。B+ 树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而 B 树不支持这样的操作（或者说效率太低）)</p>
+<p>至于 MongoDB 为什么使用 B-树而不是 B+ 树，可以从它的设计角度来考虑，它并不是传统的关系性数据库，而是以 Json 格式作为存储的 nosql，目的就是高性能，高可用，易扩展。首先它摆脱了关系模型，上面所述的优点需求就没那么强烈了，其次 Mysql 由于使用 B+ 树，数据都在叶节点上，每次查询都需要访问到叶节点，而 MongoDB 使用 B-树，所有节点都有 Data 域，只要找到指定索引就可以进行访问，无疑单次查询平均快于 Mysql（但侧面来看 Mysql 至少平均查询耗时差不多）</p>
+<p>总体来说，Mysql 选用 B+ 树和 MongoDB 选用 B-树还是以自己的需求来选择的（为什么不选用红黑树是因为红黑树高度相较 B 树太高，B 树一般都比较矮胖</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>B+ 树的优势</p>
+<ul>
+<li>单一节点存储更多的元素（相较红黑树）且不含有 Data 域（相较 B-树），使得查询的 I/O 次数减少</li>
+<li>所有查询都要查找到叶子节点，查询性能稳定</li>
+<li>所有叶子节点形成有序链表，便于范围查询</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html" target="_blank" rel="noopener">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></li>
+</ul>
 
       
     </div>
@@ -389,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/08/Java-Set-解析/" rel="next" title="Collection (二)：Set 解析">
-                <i class="fa fa-chevron-left"></i> Collection (二)：Set 解析
+              <a href="/2018/05/22/Java-知识点（持续更新中）/" rel="next" title="Java 知识点（持续更新中）">
+                <i class="fa fa-chevron-left"></i> Java 知识点（持续更新中）
               </a>
             
           </div>
@@ -398,10 +420,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/10/Java-Map-之-HashMap-及-ConcurrentHashMap-解析/" rel="prev" title="Map (一)：HashMap 及 ConcurrentHashMap 解析">
-                Map (一)：HashMap 及 ConcurrentHashMap 解析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -533,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">2.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-接口"><span class="nav-number">3.</span> <span class="nav-text">Map 接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">4.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">5.</span> <span class="nav-text">LinkedHashMap</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-索引"><span class="nav-number">2.</span> <span class="nav-text">MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的本质"><span class="nav-number">2.1.</span> <span class="nav-text">索引的本质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用-B-tree-作为-MySQL-索引的数据结构"><span class="nav-number">3.</span> <span class="nav-text">为什么使用 B+tree 作为 MySQL 索引的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部性原理和磁盘预读"><span class="nav-number">3.1.</span> <span class="nav-text">局部性原理和磁盘预读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树数据结构"><span class="nav-number">3.2.</span> <span class="nav-text">B+ 树数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树索引的性能分析"><span class="nav-number">3.3.</span> <span class="nav-text">B-/+ 树索引的性能分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
