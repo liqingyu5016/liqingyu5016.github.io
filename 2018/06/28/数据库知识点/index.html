@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Liqingyu&#39;s Blog">
 <meta property="og:description" content="写在前面 文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  文中采用的数据库为 MySQL   MySQL 索引MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等 索引的本质官方定义为：索引（index）">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-28T07:46:36.106Z">
+<meta property="og:updated_time" content="2018-07-24T11:55:35.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库知识点">
 <meta name="twitter:description" content="写在前面 文中的内容非原创，主要来源见文末的参考链接，本人仅作整理工作，用以记录自己的学习过程，由于个人水平有限，故部分内容可能会出现错误，还请包涵  文中采用的数据库为 MySQL   MySQL 索引MySQL 支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此 MySQL 数据库支持多种索引类型，如 BTree 索引，哈希索引，全文索引等等 索引的本质官方定义为：索引（index）">
@@ -430,9 +430,65 @@
 <li>包括 GRANT、DENY、REVOKE 等。用于设置或更改数据库用户或角色权限的语句</li>
 </ul>
 <hr>
+<h1 id="数据库中的锁"><a href="#数据库中的锁" class="headerlink" title="数据库中的锁"></a>数据库中的锁</h1><p>从锁的粒度，可以分成两大类：</p>
+<ul>
+<li>表锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突概率高，并发度最低</li>
+<li>行锁：开销大，加锁慢；会出现死锁；锁定粒度小，发生锁冲突概率低，并发度高</li>
+</ul>
+<p>不同的存储引擎支持的锁粒度是不一样的</p>
+<ul>
+<li>InnoDB 行锁和表锁都支持</li>
+<li>MyISAM 只支持表锁</li>
+</ul>
+<p>InnoDB 只有通过 <strong>索引条件</strong> 检索数据 <strong>才使用行级锁</strong>，否则，InnoDB 将使用<strong>表锁</strong></p>
+<ul>
+<li>即 <strong>InnoDB 的行锁是基于索引的</strong></li>
+</ul>
+<h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><p>表锁又分为两种模式：</p>
+<ul>
+<li>表读锁</li>
+<li>表写锁</li>
+<li>在表读锁和表写锁的环境下：<strong>读读不阻塞，读写阻塞，写写阻塞</strong><ul>
+<li>读读不阻塞：当前用户在读数据，其他的用户也在读数据，不会加锁</li>
+<li>读写阻塞：当前用户在读数据，其他的用户不能修改当前用户读的数据，会加锁</li>
+<li>写写阻塞：当前用户在修改数据，其他的用户不能修改当前用户正在修改的数据，会加锁</li>
+</ul>
+</li>
+</ul>
+<p>故读锁和写锁是互斥的，读写操作是串行的</p>
+<ul>
+<li>如果某个进程想要获取读锁，同时另外一个进程想要获取写锁。在mysql里边，写锁是优先于读锁的！</li>
+<li>写锁和读锁优先级的问题是可以通过参数调节的：<code>max_write_lock_count</code>和<code>low-priority-updates</code></li>
+<li>MyISAM 可以支持查询和插入操作的并发进行。可以通过系统变量<code>concurrent_insert</code>来指定哪种模式，在 MyISAM 中它默认是：如果 MyISAM 表中没有空洞（即表的中间没有被删除的行），MyISAM 允许在一个进程读表的同时，另一个进程从表尾插入记录。</li>
+<li>但是 InnoDB 存储引擎是不支持的！</li>
+</ul>
+<h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><p>我们使用 Mysql 一般是使用 InnoDB 存储引擎的。InnoDB 和 MyISAM 有两个本质的区别：</p>
+<ul>
+<li>InnoDB 支持行锁</li>
+<li>InnoDB 支持事务</li>
+</ul>
+<p>InnoDB实现了以下两种类型的行锁。</p>
+<ul>
+<li><strong>共享锁（S锁）</strong>：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。<ul>
+<li>也叫做读锁：读锁是共享的，多个客户可以同时读取同一个资源，但不允许其他客户修改。</li>
+</ul>
+</li>
+<li><strong>排他锁（X锁）</strong>：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁。<ul>
+<li>也叫做写锁：写锁是排他的，写锁会阻塞其他的写锁和读锁。</li>
+</ul>
+</li>
+</ul>
+<p>另外，<strong>为了允许行锁和表锁共存，实现多粒度锁机制</strong>，InnoDB 还有两种内部使用的意向锁（Intention Locks），这两种意向锁都是表锁：</p>
+<ul>
+<li>意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的 IS 锁。</li>
+<li>意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的 IX 锁。</li>
+<li>意向锁也是数据库隐式帮我们做了，不需要程序员操心！</li>
+</ul>
+<hr>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html" target="_blank" rel="noopener">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></li>
 <li><a href="https://blog.csdn.net/lfdns/article/details/78920455" target="_blank" rel="noopener">https://blog.csdn.net/lfdns/article/details/78920455</a></li>
+<li><a href="https://mp.weixin.qq.com/s/1oDLHiJOET59-Yh0-ajG5w" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/1oDLHiJOET59-Yh0-ajG5w</a></li>
 </ul>
 
       
@@ -547,7 +603,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -558,7 +614,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 
               </div>
@@ -602,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-索引"><span class="nav-number">2.</span> <span class="nav-text">MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的本质"><span class="nav-number">2.1.</span> <span class="nav-text">索引的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的限制"><span class="nav-number">2.2.</span> <span class="nav-text">索引的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前缀索引"><span class="nav-number">2.3.</span> <span class="nav-text">前缀索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀索引的创建"><span class="nav-number">2.3.1.</span> <span class="nav-text">前缀索引的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用前缀索引的注意点"><span class="nav-number">2.3.2.</span> <span class="nav-text">使用前缀索引的注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚集索引与非聚集索引"><span class="nav-number">2.4.</span> <span class="nav-text">聚集索引与非聚集索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚集索引"><span class="nav-number">2.4.1.</span> <span class="nav-text">聚集索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非聚集索引"><span class="nav-number">2.4.2.</span> <span class="nav-text">非聚集索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用-B-tree-作为-MySQL-索引的数据结构"><span class="nav-number">3.</span> <span class="nav-text">为什么使用 B+tree 作为 MySQL 索引的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部性原理和磁盘预读"><span class="nav-number">3.1.</span> <span class="nav-text">局部性原理和磁盘预读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树数据结构"><span class="nav-number">3.2.</span> <span class="nav-text">B+ 树数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树索引的性能分析"><span class="nav-number">3.3.</span> <span class="nav-text">B-/+ 树索引的性能分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDL、DML、DCL-分别指什么"><span class="nav-number">4.</span> <span class="nav-text">DDL、DML、DCL 分别指什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-索引"><span class="nav-number">2.</span> <span class="nav-text">MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的本质"><span class="nav-number">2.1.</span> <span class="nav-text">索引的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的限制"><span class="nav-number">2.2.</span> <span class="nav-text">索引的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前缀索引"><span class="nav-number">2.3.</span> <span class="nav-text">前缀索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀索引的创建"><span class="nav-number">2.3.1.</span> <span class="nav-text">前缀索引的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用前缀索引的注意点"><span class="nav-number">2.3.2.</span> <span class="nav-text">使用前缀索引的注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚集索引与非聚集索引"><span class="nav-number">2.4.</span> <span class="nav-text">聚集索引与非聚集索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚集索引"><span class="nav-number">2.4.1.</span> <span class="nav-text">聚集索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非聚集索引"><span class="nav-number">2.4.2.</span> <span class="nav-text">非聚集索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用-B-tree-作为-MySQL-索引的数据结构"><span class="nav-number">3.</span> <span class="nav-text">为什么使用 B+tree 作为 MySQL 索引的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部性原理和磁盘预读"><span class="nav-number">3.1.</span> <span class="nav-text">局部性原理和磁盘预读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树数据结构"><span class="nav-number">3.2.</span> <span class="nav-text">B+ 树数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树索引的性能分析"><span class="nav-number">3.3.</span> <span class="nav-text">B-/+ 树索引的性能分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDL、DML、DCL-分别指什么"><span class="nav-number">4.</span> <span class="nav-text">DDL、DML、DCL 分别指什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库中的锁"><span class="nav-number">5.</span> <span class="nav-text">数据库中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表锁"><span class="nav-number">5.1.</span> <span class="nav-text">表锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行锁"><span class="nav-number">5.2.</span> <span class="nav-text">行锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
